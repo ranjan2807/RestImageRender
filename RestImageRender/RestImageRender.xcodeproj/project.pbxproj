@@ -93,6 +93,10 @@
 		26E3DA2B24A3C31200E00A3D /* RestImageRender */ = {
 			isa = PBXGroup;
 			children = (
+				26E3DA5F24A3C4B600E00A3D /* Localization */,
+				26E3DA5E24A3C4A100E00A3D /* Environment */,
+				26E3DA5D24A3C49600E00A3D /* App */,
+				26E3DA5C24A3C48900E00A3D /* Resource */,
 				26E3DA2C24A3C31200E00A3D /* AppDelegate.swift */,
 				26E3DA3524A3C31400E00A3D /* Assets.xcassets */,
 				26E3DA3724A3C31400E00A3D /* LaunchScreen.storyboard */,
@@ -117,6 +121,66 @@
 				26E3DA5024A3C31400E00A3D /* Info.plist */,
 			);
 			path = RestImageRenderUITests;
+			sourceTree = "<group>";
+		};
+		26E3DA5C24A3C48900E00A3D /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		26E3DA5D24A3C49600E00A3D /* App */ = {
+			isa = PBXGroup;
+			children = (
+				26E3DA6324A3C4DE00E00A3D /* Utility */,
+				26E3DA6224A3C4D000E00A3D /* Service */,
+				26E3DA6124A3C4C700E00A3D /* Scene */,
+				26E3DA6024A3C4BE00E00A3D /* Model */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		26E3DA5E24A3C4A100E00A3D /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Environment;
+			sourceTree = "<group>";
+		};
+		26E3DA5F24A3C4B600E00A3D /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		26E3DA6024A3C4BE00E00A3D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		26E3DA6124A3C4C700E00A3D /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Scene;
+			sourceTree = "<group>";
+		};
+		26E3DA6224A3C4D000E00A3D /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		26E3DA6324A3C4DE00E00A3D /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
