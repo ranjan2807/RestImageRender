@@ -1,0 +1,19 @@
+//
+//  RIR.release.xcconfig
+//  RestImageRender
+//
+//  Copyright © 2020 Ranjan-iOS. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+
+/// Stores Application version number
+RIR_APP_VER = 1.0
+
+/// Stores Application build number
+RIR_APP_BUILD = 0
+
+/// Stores Application Display Name
+RIR_APP_NAME = RIR
