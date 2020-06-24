@@ -47,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		035AB7FB1498D83A85BDFFD6 /* Pods-RestImageRender-RestImageRenderUITests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestImageRender-RestImageRenderUITests.staging.xcconfig"; path = "Target Support Files/Pods-RestImageRender-RestImageRenderUITests/Pods-RestImageRender-RestImageRenderUITests.staging.xcconfig"; sourceTree = "<group>"; };
 		26E3DA2924A3C31200E00A3D /* RestImageRender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RestImageRender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26E3DA2C24A3C31200E00A3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26E3DA3524A3C31400E00A3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,8 +77,10 @@
 		877A59E8C1F9539C579CBCB3 /* Pods-RestImageRender.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestImageRender.release.xcconfig"; path = "Target Support Files/Pods-RestImageRender/Pods-RestImageRender.release.xcconfig"; sourceTree = "<group>"; };
 		94EDD09A76F181213552E195 /* Pods-RestImageRender.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestImageRender.debug.xcconfig"; path = "Target Support Files/Pods-RestImageRender/Pods-RestImageRender.debug.xcconfig"; sourceTree = "<group>"; };
 		96B8408737E1C809D1F67609 /* Pods-RestImageRenderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestImageRenderTests.release.xcconfig"; path = "Target Support Files/Pods-RestImageRenderTests/Pods-RestImageRenderTests.release.xcconfig"; sourceTree = "<group>"; };
+		9CFD089F923141335EAE9738 /* Pods-RestImageRender.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestImageRender.staging.xcconfig"; path = "Target Support Files/Pods-RestImageRender/Pods-RestImageRender.staging.xcconfig"; sourceTree = "<group>"; };
 		C29B4E51A37998C42B64FF3C /* Pods-RestImageRender-RestImageRenderUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestImageRender-RestImageRenderUITests.debug.xcconfig"; path = "Target Support Files/Pods-RestImageRender-RestImageRenderUITests/Pods-RestImageRender-RestImageRenderUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C48E8DEF960A336FDFE93D23 /* Pods-RestImageRender-RestImageRenderUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestImageRender-RestImageRenderUITests.release.xcconfig"; path = "Target Support Files/Pods-RestImageRender-RestImageRenderUITests/Pods-RestImageRender-RestImageRenderUITests.release.xcconfig"; sourceTree = "<group>"; };
+		D493E58FBBCEF2F18E21BCF4 /* Pods-RestImageRenderTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestImageRenderTests.staging.xcconfig"; path = "Target Support Files/Pods-RestImageRenderTests/Pods-RestImageRenderTests.staging.xcconfig"; sourceTree = "<group>"; };
 		F9CEA7F208AE57317CF00DFB /* Pods_RestImageRenderTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RestImageRenderTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -263,6 +266,9 @@
 				C48E8DEF960A336FDFE93D23 /* Pods-RestImageRender-RestImageRenderUITests.release.xcconfig */,
 				6BBDAAE7C91A94C75BFF9BA7 /* Pods-RestImageRenderTests.debug.xcconfig */,
 				96B8408737E1C809D1F67609 /* Pods-RestImageRenderTests.release.xcconfig */,
+				9CFD089F923141335EAE9738 /* Pods-RestImageRender.staging.xcconfig */,
+				035AB7FB1498D83A85BDFFD6 /* Pods-RestImageRender-RestImageRenderUITests.staging.xcconfig */,
+				D493E58FBBCEF2F18E21BCF4 /* Pods-RestImageRenderTests.staging.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -279,6 +285,7 @@
 				26E3DA2624A3C31200E00A3D /* Frameworks */,
 				26E3DA2724A3C31200E00A3D /* Resources */,
 				C22562CE8DF7F771FDECE927 /* [CP] Embed Pods Frameworks */,
+				26E3DA8424A3DF2A00E00A3D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -402,6 +409,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		26E3DA8424A3DF2A00E00A3D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint\nelse echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		6251054B325368B6E326436D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -873,7 +897,7 @@
 		};
 		26E3DA7224A3D6E800E00A3D /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 877A59E8C1F9539C579CBCB3 /* Pods-RestImageRender.release.xcconfig */;
+			baseConfigurationReference = 9CFD089F923141335EAE9738 /* Pods-RestImageRender.staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -893,7 +917,7 @@
 		};
 		26E3DA7324A3D6E800E00A3D /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 96B8408737E1C809D1F67609 /* Pods-RestImageRenderTests.release.xcconfig */;
+			baseConfigurationReference = D493E58FBBCEF2F18E21BCF4 /* Pods-RestImageRenderTests.staging.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -916,7 +940,7 @@
 		};
 		26E3DA7424A3D6E800E00A3D /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C48E8DEF960A336FDFE93D23 /* Pods-RestImageRender-RestImageRenderUITests.release.xcconfig */;
+			baseConfigurationReference = 035AB7FB1498D83A85BDFFD6 /* Pods-RestImageRender-RestImageRenderUITests.staging.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

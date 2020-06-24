@@ -2,7 +2,6 @@
 //  RestImageRenderTests.swift
 //  RestImageRenderTests
 //
-//  Created by Newpage-iOS on 24/06/20.
 //  Copyright © 2020 Ranjan-iOS. All rights reserved.
 //
 
