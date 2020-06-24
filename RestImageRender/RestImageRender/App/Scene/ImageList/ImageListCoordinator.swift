@@ -12,9 +12,19 @@ import Swinject
 final class ImageListCoordinator: Coordinator {
     var childCoordinators: [Coordinator]?
 
-    weak var navigationController: UINavigationController?
+    private weak var navigationController: UINavigationController?
 
     lazy private var viewController = ImageListViewController()
+
+    lazy private var container: Container = {
+        let contTemp = Container()
+
+        contTemp.register(ImageListViewModelProtocol.self) { _ in
+            ImageListViewModel()
+        }
+
+        return contTemp
+    } ()
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -22,6 +32,9 @@ final class ImageListCoordinator: Coordinator {
 
     func start() {
         if let navigationController = self.navigationController {
+            self.viewController.viewModel = container.resolve(ImageListViewModelProtocol.self)
+            self.viewController.viewModel?.initialize()
+
             navigationController.viewControllers = [viewController]
         }
     }
