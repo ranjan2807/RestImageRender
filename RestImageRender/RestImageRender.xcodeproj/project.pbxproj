@@ -21,6 +21,7 @@
 		26E3DA7024A3D6B800E00A3D /* RIR.release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 26E3DA6D24A3D6B800E00A3D /* RIR.release.xcconfig */; };
 		26E3DA7724A3D87500E00A3D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E3DA7524A3D87400E00A3D /* Constants.swift */; };
 		26E3DA7824A3D87500E00A3D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E3DA7624A3D87500E00A3D /* Utils.swift */; };
+		26E3DA7A24A3D99400E00A3D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E3DA7924A3D99400E00A3D /* AppCoordinator.swift */; };
 		CB1C8410D26A310A55C6F2F0 /* Pods_RestImageRenderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9CEA7F208AE57317CF00DFB /* Pods_RestImageRenderTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		26E3DA6D24A3D6B800E00A3D /* RIR.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = RIR.release.xcconfig; sourceTree = "<group>"; };
 		26E3DA7524A3D87400E00A3D /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		26E3DA7624A3D87500E00A3D /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		26E3DA7924A3D99400E00A3D /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		6BBDAAE7C91A94C75BFF9BA7 /* Pods-RestImageRenderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestImageRenderTests.debug.xcconfig"; path = "Target Support Files/Pods-RestImageRenderTests/Pods-RestImageRenderTests.debug.xcconfig"; sourceTree = "<group>"; };
 		739458F5521C1A8DEB8A1855 /* Pods_RestImageRender_RestImageRenderUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RestImageRender_RestImageRenderUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82FE5D53849B39F9B058BD99 /* Pods_RestImageRender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RestImageRender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +141,7 @@
 				26E3DA5D24A3C49600E00A3D /* App */,
 				26E3DA5C24A3C48900E00A3D /* Resource */,
 				26E3DA2C24A3C31200E00A3D /* AppDelegate.swift */,
+				26E3DA7924A3D99400E00A3D /* AppCoordinator.swift */,
 				26E3DA3524A3C31400E00A3D /* Assets.xcassets */,
 				26E3DA3724A3C31400E00A3D /* LaunchScreen.storyboard */,
 				26E3DA3A24A3C31400E00A3D /* Info.plist */,
@@ -488,6 +491,7 @@
 			files = (
 				26E3DA6A24A3C56800E00A3D /* Localization.swift in Sources */,
 				26E3DA2D24A3C31200E00A3D /* AppDelegate.swift in Sources */,
+				26E3DA7A24A3D99400E00A3D /* AppCoordinator.swift in Sources */,
 				26E3DA7724A3D87500E00A3D /* Constants.swift in Sources */,
 				26E3DA7824A3D87500E00A3D /* Utils.swift in Sources */,
 			);
