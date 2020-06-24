@@ -6,6 +6,14 @@ target 'RestImageRender' do
   use_frameworks!
 
   # Pods for RestImageRender
+  pod 'Alamofire'
+  pod 'Swinject'
+
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxDataSources'
+
+  pod 'Kingfisher'
 
   target 'RestImageRenderTests' do
     inherit! :search_paths
