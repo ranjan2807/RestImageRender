@@ -33,6 +33,15 @@ final class AppCoordinator: Coordinator {
 
     lazy private var rootViewController: UINavigationController? = UINavigationController()
 
+    lazy private var container: Container = {
+        let contTemp = Container()
+
+        contTemp.register(Coordinator.self) { [weak self] _ in
+            ImageListCoordinator(navigationController: self!.rootViewController!)
+        }
+        return contTemp
+    }()
+
     init(window: UIWindow?) {
         self.window = window
     }
@@ -53,8 +62,8 @@ final class AppCoordinator: Coordinator {
 extension AppCoordinator {
 
     func openImageList() {
-
-
+        guard let coordinator = container.resolve(Coordinator.self) else { return }
+        coordinator.start()
+        store(coordinator: coordinator)
     }
 }
-
