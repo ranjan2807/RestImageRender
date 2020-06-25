@@ -19,8 +19,14 @@ final class ImageListCoordinator: Coordinator {
     lazy private var container: Container = {
         let contTemp = Container()
 
-        contTemp.register(ImageListViewModelProtocol.self) { _ in
-            ImageListViewModel()
+        contTemp.register (RestClientProtocol.self) { _ in
+            RestClient()
+        }
+
+        contTemp.register(ImageListViewModelProtocol.self) { resolver in
+            ImageListViewModel(
+                resolver.resolve(RestClientProtocol.self)!
+            )
         }
 
         return contTemp
@@ -31,12 +37,14 @@ final class ImageListCoordinator: Coordinator {
     }
 
     func start() {
-        if let navigationController = self.navigationController {
-            self.viewController.viewModel = container.resolve(ImageListViewModelProtocol.self)
-            self.viewController.viewModel?.initialize()
+        guard let navigationController = self.navigationController else { return }
 
-            navigationController.viewControllers = [viewController]
+        if let viewModel = container.resolve(ImageListViewModelProtocol.self) {
+            self.viewController.viewModel = viewModel
+            self.viewController.viewModel?.initialize()
         }
+
+        navigationController.viewControllers = [viewController]
     }
 
     func finish() {
