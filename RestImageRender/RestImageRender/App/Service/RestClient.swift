@@ -21,15 +21,10 @@ struct RestClient: RestClientProtocol {
             "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json"
         ).validate()
             .responseJSON { response in
-                print(response.data!)
-
                 let stringValue = String(decoding: response.data!, as: UTF8.self)
-                print(stringValue)
-
                 let dataTemp = Data(stringValue.utf8)
 
                 do {
-
                     let appData = try JSONDecoder().decode(AppData.self, from: dataTemp)
                     completion(appData)
                 } catch {
