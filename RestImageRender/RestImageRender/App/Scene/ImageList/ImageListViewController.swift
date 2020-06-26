@@ -15,23 +15,38 @@ class ImageListViewController: UIViewController {
 
     lazy private var disposeBag = DisposeBag()
 
-    private var collectionView: UICollectionView?
+    private var collectionView: UICollectionView? = {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        //layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+
+        var collectionViewTemp = UICollectionView(frame: CGRect(),
+                                                  collectionViewLayout: layout)
+        collectionViewTemp.collectionViewLayout = layout
+        collectionViewTemp.backgroundColor = RIRColors.background
+        collectionViewTemp.translatesAutoresizingMaskIntoConstraints = false
+
+        collectionViewTemp.register(ImageCollectionViewCell.self,
+                                 forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
+
+        return collectionViewTemp
+    } ()
 
     override func loadView() {
         super.loadView()
+        self.view.backgroundColor = RIRColors.background
 
+        // add collection view
+        // in the current screen
         addCollectionView()
-
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController!.navigationBar.prefersLargeTitles = true
 
+        // bind collection view with the
+        // image list data of viewModel
         bindView ()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
         addLayoutConstraint()
     }
 }
@@ -56,6 +71,7 @@ extension ImageListViewController {
                 guard let cellTemp = cell as? ImageCollectionViewCell else { return }
                 cellTemp.lblTitle?.text = data.title ?? ""
                 cellTemp.lblDesc?.text = data.imgDesc ?? ""
+                cellTemp.imgView?.image = UIImage(named: "placeholder")
 
                 if let strURL = data.imgUrl {
                     let url = URL(string: strURL)
@@ -71,40 +87,47 @@ extension ImageListViewController {
 
     func addLayoutConstraint() {
         let views: [String: Any] = [
-          "collectionView": collectionView!
+            "collectionView": collectionView!
         ]
 
         var allConstraints: [NSLayoutConstraint] = []
 
         let collectionHorizontalConstraints = NSLayoutConstraint.constraints(
-        withVisualFormat: "H:|-0-[collectionView]-0-|",
+        withVisualFormat: "H:|-[collectionView]-|",
         metrics: nil,
         views: views)
         allConstraints += collectionHorizontalConstraints
 
-        let collectionHVerticalConstraints = NSLayoutConstraint.constraints(
-        withVisualFormat: "V:|-0-[collectionView]-0-|",
+        let collectionVerticalConstraints = NSLayoutConstraint.constraints(
+        withVisualFormat: "V:|-[collectionView]-|",
         metrics: nil,
         views: views)
-        allConstraints += collectionHVerticalConstraints
+        allConstraints += collectionVerticalConstraints
 
         NSLayoutConstraint.activate(allConstraints)
     }
 
     func addCollectionView() {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 25, bottom: 40, right: 25)
-        layout.itemSize = CGSize(width: 170, height: 170)
+        if let layoutTemp = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
+            let screenSize = self.view.bounds.size
+            let screenWidth = screenSize.width < screenSize.height ? screenSize.width : screenSize.height
+            var cellwidth = 0.0
 
-        collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionView?.backgroundColor = RIRColors.background
+            switch UIDevice.current.userInterfaceIdiom {
+            case .phone:
+                // It's an iPhone
+                cellwidth = Double((screenWidth - (5*10))/2)
+            case .pad:
+                // It's an iPad (or macOS Catalyst)
+                cellwidth = Double((screenWidth - (3*10))/4)
+            default:
+                cellwidth = Double((screenWidth - (5*10))/2)
+            }
+
+            layoutTemp.itemSize = CGSize(width: cellwidth, height: cellwidth)
+        }
+
         self.view.addSubview(collectionView!)
-
-        collectionView?.register(ImageCollectionViewCell.self,
-                                 forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
     }
 
-    override func willAnimateRotation(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
-         self.view.setNeedsUpdateConstraints()
-    }
 }
