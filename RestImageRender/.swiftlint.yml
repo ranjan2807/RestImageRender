@@ -7,3 +7,4 @@ excluded:
 - Pods
 - RestImageRenderTests
 - RestImageRenderUITests
+- RestImageRender/App/Utility
