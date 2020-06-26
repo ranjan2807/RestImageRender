@@ -108,13 +108,13 @@ extension ImageCollectionViewCell {
         // HORIZONTAL CONSTRAINTS
 
         let titleHorizontalConstraints = NSLayoutConstraint.constraints(
-        withVisualFormat: "H:|-[lblTitle]-|",
+        withVisualFormat: "H:|-10-[lblTitle]-10-|",
         metrics: nil,
         views: views)
         allConstraints += titleHorizontalConstraints
 
         let descHorizontalConstraints = NSLayoutConstraint.constraints(
-        withVisualFormat: "H:|-[lblDesc]-|",
+        withVisualFormat: "H:|-10-[lblDesc]-10-|",
         metrics: nil,
         views: views)
         allConstraints += descHorizontalConstraints

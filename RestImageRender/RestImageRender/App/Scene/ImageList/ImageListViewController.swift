@@ -109,6 +109,7 @@ extension ImageListViewController {
 
 			layoutTemp.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
 			layoutTemp.itemSize = CGSize(width: cellwidth, height: cellwidth*1.5)
+			layoutTemp.minimumLineSpacing = 30
 		}
 
 		self.view.addSubview(collectionView!)
@@ -256,4 +257,10 @@ extension ImageListViewController {
 		).disposed(by: disposeBag)
 	}
 
+}
+
+extension ImageListViewController {
+	override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+		collectionView?.collectionViewLayout.invalidateLayout()
+	}
 }
