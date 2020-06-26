@@ -8,28 +8,67 @@
 
 import Foundation
 import Alamofire
+import RxSwift
 
 protocol RestClientProtocol {
-    func loadData(completion: @escaping (AppData) -> Void)
+	func fetchData (url: String) -> Observable<AppData>
 }
 
 struct RestClient: RestClientProtocol {
 
-    func loadData( completion: @escaping (AppData) -> Void) {
+	func fetchData (url: String) -> Observable<AppData> {
+		return Observable.create { observer in
 
-        AF.request(
-            "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json"
-        ).validate()
-            .responseJSON { response in
-                let stringValue = String(decoding: response.data!, as: UTF8.self)
-                let dataTemp = Data(stringValue.utf8)
+			if !NetworkReachabilityManager()!.isReachable {
+				//observer.onError("")
+				observer.onCompleted()
+				return Disposables.create ()
+			}
 
-                do {
-                    let appData = try JSONDecoder().decode(AppData.self, from: dataTemp)
-                    completion(appData)
-                } catch {
-                    print(error)
-                }
-        }
-    }
+			AF.request(
+				url
+			).validate()
+				.responseJSON { response in
+
+					// check response object
+					guard let responseTemp = response.response else {
+						observer.onError(response.error!)
+						observer.onCompleted()
+						return
+					}
+
+					// check status code
+					if responseTemp.statusCode < 200,
+						responseTemp.statusCode > 300 {
+						observer.onError(response.error!)
+						observer.onCompleted()
+						return
+					}
+
+					// check response data
+					guard let data = response.data else {
+						observer.onError(response.error!)
+						observer.onCompleted()
+						return
+					}
+
+					let stringValue = String(decoding: data, as: UTF8.self)
+					let dataTemp = Data(stringValue.utf8)
+
+					do {
+						let appData = try JSONDecoder().decode(
+							AppData.self,
+							from: dataTemp)
+						observer.onNext(appData)
+
+					} catch {
+						observer.onError(error)
+					}
+
+					observer.onCompleted()
+			}
+
+			return Disposables.create ()
+		}
+	}
 }

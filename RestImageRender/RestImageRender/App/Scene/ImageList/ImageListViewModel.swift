@@ -25,6 +25,8 @@ final class ImageListViewModel: ImageListViewModelProtocol {
 
     private let restClient: RestClientProtocol?
 
+    lazy private var disposeBag = DisposeBag()
+
     var titleObservable: Observable<String> {
         return subjectTitle.asObservable()
     }
@@ -53,13 +55,41 @@ extension ImageListViewModel {
 
         // start loader
         subjectLoader.accept(true)
+		subjectTitle.accept("")
+		subjectImages.accept( [])
 
-        client.loadData { [weak self] (data) in
-            self?.subjectTitle.accept(data.title ?? "")
-            self?.subjectImages.accept(data.items ?? [])
+        // start fetching data from remote
+		client.fetchData(url: CONTENT_URL)
+            .subscribe(
+                onNext: { [weak self] (data) in
+                    // update screen
+                    self?.updateTitle(title: data.title)
+                    self?.updateItems(items: data.items)
+                },
+                onError: {  (error) in
+					print(error)
+                },
+                onCompleted: { [weak self] in
+                    // stop loader
+                    self?.subjectLoader.accept(false)
+            })
+            .disposed(by: disposeBag)
+    }
 
-            // stop loader
-            self?.subjectLoader.accept(false)
+    fileprivate func updateTitle (title: String?) {
+        if let titleTemp = title {
+            subjectTitle.accept(titleTemp)
+        } else {
+            subjectTitle.accept("")
         }
+    }
+
+    fileprivate func updateItems (items: [ImageDetail]?) {
+        if let itemTemp = items {
+            subjectImages.accept(itemTemp)
+        } else {
+            subjectImages.accept([])
+        }
+
     }
 }

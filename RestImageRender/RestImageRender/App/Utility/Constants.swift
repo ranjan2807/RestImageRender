@@ -18,3 +18,5 @@ struct RIRColors {
     static let primaryText: UIColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     static let secondaryText: UIColor = #colorLiteral(red: 0.2032293081, green: 0.2207838595, blue: 0.2443138957, alpha: 1)
 }
+
+let CONTENT_URL = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json"
