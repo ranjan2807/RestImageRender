@@ -12,21 +12,29 @@ import RxCocoa
 protocol ImageListViewModelProtocol {
     var titleObservable: Observable<String> { get }
     var imagesObservable: Observable<[ImageDetail]> { get }
+    var loaderObservable: Observable<Bool> { get }
     func initialize()
+    func loadData ()
 }
 
 final class ImageListViewModel: ImageListViewModelProtocol {
 
-    private let subject = BehaviorRelay<String>(value: "")
-    private let restClient: RestClientProtocol?
+    private let subjectTitle = BehaviorRelay<String>(value: "")
     private let subjectImages = BehaviorRelay<[ImageDetail]>(value: [])
+    private let subjectLoader = BehaviorRelay<Bool>(value: true)
+
+    private let restClient: RestClientProtocol?
 
     var titleObservable: Observable<String> {
-        return subject.asObservable()
+        return subjectTitle.asObservable()
     }
 
     var imagesObservable: Observable<[ImageDetail]> {
         return subjectImages.asObservable()
+    }
+
+    var loaderObservable: Observable<Bool> {
+        return subjectLoader.asObservable()
     }
 
     init(_ restClient: RestClientProtocol) {
@@ -34,11 +42,24 @@ final class ImageListViewModel: ImageListViewModelProtocol {
     }
 
     func initialize() {
+        loadData()
+    }
+}
 
+extension ImageListViewModel {
+
+    func loadData () {
         guard let client = self.restClient else { return }
-        client.loadData { [unowned self] (data) in
-            self.subject.accept(data.title ?? "")
-            self.subjectImages.accept(data.items ?? [])
+
+        // start loader
+        subjectLoader.accept(true)
+
+        client.loadData { [weak self] (data) in
+            self?.subjectTitle.accept(data.title ?? "")
+            self?.subjectImages.accept(data.items ?? [])
+
+            // stop loader
+            self?.subjectLoader.accept(false)
         }
     }
 }

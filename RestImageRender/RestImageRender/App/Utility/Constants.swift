@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 struct RIRColors {
-    static let primary: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    static let primary: UIColor = #colorLiteral(red: 0.2405773699, green: 0.7062084079, blue: 1, alpha: 0.8703713613)
     static let secondary: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     static let tertiary: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     static let background: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
