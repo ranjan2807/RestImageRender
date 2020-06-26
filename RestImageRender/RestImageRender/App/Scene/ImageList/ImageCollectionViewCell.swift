@@ -2,13 +2,12 @@
 //  ImageCollectionViewCell.swift
 //  RestImageRender
 //
-//  Created by Newpage-iOS on 26/06/20.
 //  Copyright © 2020 Ranjan-iOS. All rights reserved.
 //
 
 import UIKit
 
-class ImageCollectionViewCell: UICollectionViewCell {
+final class ImageCollectionViewCell: UICollectionViewCell {
 
     static let reuseIdentifier = "Cell"
 
@@ -62,7 +61,7 @@ class ImageCollectionViewCell: UICollectionViewCell {
     lazy var imgView: UIImageView? = {
         let img = UIImageView()
         img.contentMode = .scaleAspectFill
-        img.image = UIImage(named: "placeholder")
+        img.image = UIImage(named: PLACEHOLDER_IMAGE)
         img.clipsToBounds = true
         img.translatesAutoresizingMaskIntoConstraints = false
 

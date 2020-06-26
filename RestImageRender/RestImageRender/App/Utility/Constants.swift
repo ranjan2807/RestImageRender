@@ -20,3 +20,5 @@ struct RIRColors {
 }
 
 let CONTENT_URL = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json"
+
+let PLACEHOLDER_IMAGE = "placeholder"
