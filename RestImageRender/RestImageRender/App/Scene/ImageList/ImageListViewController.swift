@@ -97,18 +97,18 @@ extension ImageListViewController {
 			var cellwidth = 0.0
 
 			switch UIDevice.current.userInterfaceIdiom {
-				case .phone:
+			case .phone:
 					// It's an iPhone
 					cellwidth = Double((screenWidth - (5*10))/2)
-				case .pad:
+			case .pad:
 					// It's an iPad (or macOS Catalyst)
 					cellwidth = Double((screenWidth - (3*10))/4)
-				default:
+			default:
 					cellwidth = Double((screenWidth - (5*10))/2)
 			}
 
 			layoutTemp.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
-			layoutTemp.itemSize = CGSize(width: cellwidth, height: cellwidth)
+			layoutTemp.itemSize = CGSize(width: cellwidth, height: cellwidth*1.5)
 		}
 
 		self.view.addSubview(collectionView!)
@@ -136,18 +136,16 @@ extension ImageListViewController {
 		refreshCollection?.endRefreshing()
 	}
 
-	fileprivate func updateCells(cell: ImageCollectionViewCell, data: ImageDetail) {
-		cell.lblTitle?.text = data.title ?? ""
-		cell.lblDesc?.text = data.imgDesc ?? ""
+	fileprivate func updateCells(cell: ImageCollectionViewCell, data: ImageViewData) {
+		cell.lblTitle?.text = data.imgTitle
+		cell.lblDesc?.text = data.imgDesc
 		cell.imgView?.image = UIImage(named: PLACEHOLDER_IMAGE)
 
-		if let strURL = data.imgUrl {
-			let url = URL(string: strURL)
-			cell.imgView?.kf.setImage(
-				with: url,
-				placeholder: UIImage(named: PLACEHOLDER_IMAGE)
-			)
-		}
+		cell.downloadObservable = data.loadImage()
+			.bind(to:
+				(cell.imgView?.rx.image)!)
+
+		cell.downloadObservable?.disposed(by: disposeBag)
 	}
 
 }
@@ -225,6 +223,17 @@ extension ImageListViewController {
 					self?.updateCells(cell: cellTemp, data: data)
 
 		}.disposed(by: disposeBag)
+
+		collectionView?.rx.didEndDisplayingCell
+			.asObservable().subscribe(onNext: { (row) in
+				guard let cellTemp = row.cell as? ImageCollectionViewCell else {
+					return
+				}
+
+				if let obj = cellTemp.downloadObservable {
+					obj.dispose()
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	fileprivate func bindScreenTitle() {

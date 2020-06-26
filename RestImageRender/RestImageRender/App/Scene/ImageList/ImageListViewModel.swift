@@ -11,7 +11,7 @@ import RxCocoa
 
 protocol ImageListViewModelProtocol {
     var titleObservable: Observable<String> { get }
-    var imagesObservable: Observable<[ImageDetail]> { get }
+    var imagesObservable: Observable<[ImageViewData]> { get }
     var loaderObservable: Observable<Bool> { get }
     func initialize()
     func loadData ()
@@ -20,7 +20,7 @@ protocol ImageListViewModelProtocol {
 final class ImageListViewModel: ImageListViewModelProtocol {
 
     private let subjectTitle = BehaviorRelay<String>(value: "")
-    private let subjectImages = BehaviorRelay<[ImageDetail]>(value: [])
+    private let subjectImages = BehaviorRelay<[ImageViewData]>(value: [])
     private let subjectLoader = BehaviorRelay<Bool>(value: true)
 
     private let restClient: RestClientProtocol?
@@ -31,7 +31,7 @@ final class ImageListViewModel: ImageListViewModelProtocol {
         return subjectTitle.asObservable()
     }
 
-    var imagesObservable: Observable<[ImageDetail]> {
+    var imagesObservable: Observable<[ImageViewData]> {
         return subjectImages.asObservable()
     }
 
@@ -85,8 +85,10 @@ extension ImageListViewModel {
     }
 
     fileprivate func updateItems (items: [ImageDetail]?) {
-        if let itemTemp = items {
-            subjectImages.accept(itemTemp)
+        if let itemTemp = items,
+		itemTemp.count > 0 {
+			let newItems = itemTemp.map { ImageViewData(img: $0) }
+            subjectImages.accept(newItems)
         } else {
             subjectImages.accept([])
         }

@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import RxSwift
 
 final class ImageCollectionViewCell: UICollectionViewCell {
 
     static let reuseIdentifier = "Cell"
+
+	var downloadObservable: Disposable?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
