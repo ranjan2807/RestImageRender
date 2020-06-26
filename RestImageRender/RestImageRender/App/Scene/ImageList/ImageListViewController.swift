@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import Kingfisher
 
 class ImageListViewController: UIViewController {
 
@@ -55,6 +56,15 @@ extension ImageListViewController {
                 guard let cellTemp = cell as? ImageCollectionViewCell else { return }
                 cellTemp.lblTitle?.text = data.title ?? ""
                 cellTemp.lblDesc?.text = data.imgDesc ?? ""
+
+                if let strURL = data.imgUrl {
+                    let url = URL(string: strURL)
+                    cellTemp.imgView?.kf.setImage(
+                        with: url,
+                        placeholder: UIImage(named: "placeholder")
+                    )
+                }
+
         }.disposed(by: disposeBag)
 
     }
@@ -87,10 +97,14 @@ extension ImageListViewController {
         layout.itemSize = CGSize(width: 170, height: 170)
 
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionView?.backgroundColor = .white
+        collectionView?.backgroundColor = RIRColors.background
         self.view.addSubview(collectionView!)
 
         collectionView?.register(ImageCollectionViewCell.self,
                                  forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
+    }
+
+    override func willAnimateRotation(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+         self.view.setNeedsUpdateConstraints()
     }
 }
