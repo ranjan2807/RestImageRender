@@ -256,12 +256,4 @@ extension ImageListViewController {
 			}
 		).disposed(by: disposeBag)
 	}
-
-}
-
-extension ImageListViewController {
-
-	override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-		collectionView?.collectionViewLayout.invalidateLayout()
-	}
 }

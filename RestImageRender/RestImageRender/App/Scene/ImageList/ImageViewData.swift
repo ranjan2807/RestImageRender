@@ -15,8 +15,7 @@ struct ImageViewData {
 
 	private let restClient: RestClientProtocol?
 
-	init( img: ImageDetail,
-		  restClient: RestClientProtocol ) {
+	init( img: ImageDetail, restClient: RestClientProtocol ) {
 		obj = img
 		self.restClient = restClient
 	}
@@ -54,24 +53,6 @@ struct ImageViewData {
 							observer.onCompleted()
 
 				}))!
-
-			//			guard let url = URL.init(string: urlStr) else {
-			//				observer.onCompleted()
-			//				return Disposables.create()
-			//			}
-			//
-			//			let resource = ImageResource(downloadURL: url)
-			//
-			//			KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) { result in
-			//				switch result {
-			//				case .success(let value):
-			//					observer.onNext(value.image)
-			//				case .failure(let error):
-			//					print(error)
-			//				}
-			//
-			//				observer.onCompleted()
-			//			}
 		}
 	}
 
