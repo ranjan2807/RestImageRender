@@ -4,3 +4,11 @@
 
   Copyright © 2020 Ranjan-iOS. All rights reserved.
 */
+
+"Feild value not found" = "Feild value not found";
+
+"Data not found" = "Data not found";
+
+"No Network" = "No Network";
+
+"Unknown error occurred" = "Unknown error occurred";
