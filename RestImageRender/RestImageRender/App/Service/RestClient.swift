@@ -11,6 +11,7 @@ import RxSwift
 
 protocol RestClientProtocol {
 	func fetchData (url: String) -> Observable<AppData>
+	func  downloadImage (url: String) -> Observable<Data>
 }
 
 struct RestClient: RestClientProtocol {
@@ -68,6 +69,55 @@ struct RestClient: RestClientProtocol {
 			}
 
 			return Disposables.create ()
+		}
+	}
+
+	func downloadImage (url: String) -> Observable<Data> {
+		return Observable.create { observer in
+
+			AF.download(url).responseData { (response) in
+
+				print(response.fileURL!)
+
+				// check response object
+				guard let responseTemp = response.response else {
+					observer.onError(response.error!)
+					observer.onCompleted()
+					return
+				}
+
+				// check status code
+				if responseTemp.statusCode < 200,
+					responseTemp.statusCode > 300 {
+					observer.onError(response.error!)
+					observer.onCompleted()
+					return
+				}
+
+				// check file url is available
+				guard let fileUrl = response.fileURL else {
+					observer.onError(response.error!)
+					observer.onCompleted()
+					return
+				}
+
+				do {
+					let data = try Data(contentsOf: fileUrl)
+
+					// got the image data
+					observer.onNext(data)
+					observer.onCompleted()
+				} catch {
+					observer.onError(response.error!)
+					observer.onCompleted()
+					return
+				}
+
+				// space management
+				try? FileManager.default.removeItem(at: fileUrl)
+			}
+
+			return Disposables.create()
 		}
 	}
 }

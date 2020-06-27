@@ -260,6 +260,7 @@ extension ImageListViewController {
 }
 
 extension ImageListViewController {
+
 	override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
 		collectionView?.collectionViewLayout.invalidateLayout()
 	}

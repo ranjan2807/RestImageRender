@@ -224,7 +224,6 @@
 			isa = PBXGroup;
 			children = (
 				26E3DA8224A3DA8B00E00A3D /* Image.swift */,
-				26A084D924A6561C00FF2922 /* ImageViewData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -262,6 +261,7 @@
 				26E3DA7E24A3DA3100E00A3D /* ImageListViewModel.swift */,
 				26E3DA8024A3DA5A00E00A3D /* ImageListCoordinator.swift */,
 				26EA673724A5354B00B6C02C /* ImageCollectionViewCell.swift */,
+				26A084D924A6561C00FF2922 /* ImageViewData.swift */,
 			);
 			path = ImageList;
 			sourceTree = "<group>";
