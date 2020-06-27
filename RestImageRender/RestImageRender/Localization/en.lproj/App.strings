@@ -12,3 +12,11 @@
 "No Network" = "No Network";
 
 "Unknown error occurred" = "Unknown error occurred";
+
+"Facts" = "Facts";
+
+"The Internet connection appears to be offline." = "The Internet connection appears to be offline.";
+
+"Something went wrong. Please try after sometime." = "Something went wrong. Please try after sometime.";
+
+"JSON parsing error" = "JSON parsing error";

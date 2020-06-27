@@ -51,6 +51,7 @@ final class ImageListViewController: UIViewController {
 	override func loadView() {
 		super.loadView()
 		self.view.backgroundColor = RIRColors.background
+		self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Refresh", style: .plain, target: self, action: #selector(refresh))
 
 		// add screen views
 		addSubviews()
@@ -59,6 +60,11 @@ final class ImageListViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.navigationController!.navigationBar.prefersLargeTitles = true
+
+		NotificationCenter.default.addObserver(self,
+											   selector: #selector(refresh),
+											   name: UIApplication.didBecomeActiveNotification,
+			object: nil)
 
 		// bind collection view with the
 		// image list data of viewModel

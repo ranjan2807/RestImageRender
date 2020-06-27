@@ -44,6 +44,8 @@ final class ImageListViewModel: ImageListViewModelProtocol {
     }
 
     func initialize() {
+		subjectTitle.accept("Facts".localized)
+
         loadData()
     }
 }
@@ -54,7 +56,7 @@ extension ImageListViewModel {
         guard let client = self.restClient else { return }
 
         // start loader
-        subjectLoader.accept(true)
+		subjectLoader.accept(true)
 
 		// remove all cached image files
 		if forcedReload {
@@ -63,27 +65,29 @@ extension ImageListViewModel {
 
         // start fetching data from remote
 		client.fetchData(url: CONTENT_URL)
-            .subscribe(
-                onNext: { [weak self] (data) in
-                    // update screen
-                    self?.updateTitle(title: data.title)
-                    self?.updateItems(items: data.items)
-                },
-                onError: {  (error) in
+			.subscribe(
+				onNext: { [weak self] (data) in
+					// update screen
+					self?.updateTitle(title: data.title)
+					self?.updateItems(items: data.items)
+				},
+				onError: { [weak self] (error) in
+					self?.updateTitle(title: nil)
+					self?.updateItems(items: nil)
 					print(error)
-                },
-                onDisposed: { [weak self] in
+				},
+				onDisposed: { [weak self] in
 					// stop loader
 					self?.subjectLoader.accept(false)
 			})
-            .disposed(by: disposeBag)
+			.disposed(by: disposeBag)
     }
 
     fileprivate func updateTitle (title: String?) {
         if let titleTemp = title {
             subjectTitle.accept(titleTemp)
         } else {
-            subjectTitle.accept("")
+			subjectTitle.accept("Facts".localized)
         }
     }
 

@@ -11,6 +11,7 @@ enum RIRErrorCode {
 	case emptyField
 	case dataNotFound
 	case noNetwork
+	case parseError
 	case customError
 	case unknown
 }
@@ -36,31 +37,38 @@ struct RIRError: LocalizedError {
 
 		static let instance = RIRErrorFactory()
 
-		func feildEmptyError(userInfo: Dictionary<String, String>? = nil ) -> RIRError {
+		func feildEmptyError(userInfo: Dictionary<String, String>? = [:] ) -> RIRError {
 			return RIRError(domain: "Feild value not found".localized,
 							code: .emptyField,
 							userInfo: userInfo)
 		}
 
-		func dataNotFoundError(userInfo: Dictionary<String, String>? = nil ) -> RIRError {
+		func dataNotFoundError(userInfo: Dictionary<String, String>? = [:] ) -> RIRError {
 			return RIRError(domain: "Data not found".localized,
 							code: .dataNotFound,
 							userInfo: userInfo)
 		}
 
-		func noNetworkError(userInfo: Dictionary<String, String>? = nil ) -> RIRError {
-			return RIRError(domain: "No Network".localized,
+		func jsonParsingError(userInfo: Dictionary<String, String>? = [:] ) -> RIRError {
+			return RIRError(domain: "JSON parsing error".localized,
+							code: .dataNotFound,
+							userInfo: userInfo)
+		}
+
+		func noNetworkError(userInfo: Dictionary<String, String>? = [:] ) -> RIRError {
+			return RIRError(domain: "The Internet connection appears to be offline.".localized,
 							code: .noNetwork,
 							userInfo: userInfo)
 		}
 
-		func customError(domain: String, userInfo: Dictionary<String, String>? = nil ) -> RIRError {
+		func customError(domain: String = "Something went wrong. Please try after sometime.".localized,
+						 userInfo: Dictionary<String, String>? = [:] ) -> RIRError {
 			return RIRError(domain: domain,
 							code: .customError,
 							userInfo: userInfo)
 		}
 
-		func unknownError(userInfo: Dictionary<String, String>? = nil ) -> RIRError {
+		func unknownError(userInfo: Dictionary<String, String>? = [:] ) -> RIRError {
 			return RIRError(domain: "Unknown error occurred".localized,
 							code: .dataNotFound,
 							userInfo: userInfo)

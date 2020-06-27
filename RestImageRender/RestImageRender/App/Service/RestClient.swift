@@ -13,7 +13,7 @@ protocol RestClientProtocol {
 	func fetchData (url: String) -> Observable<AppData>
 }
 
-struct RestClient: RestClientProtocol, ImageProcessStrategyProtocol {
+struct RestClient: RestClientProtocol {
 
 	func fetchData (url: String) -> Observable<AppData> {
 		return Observable.create { observer in
@@ -31,20 +31,20 @@ struct RestClient: RestClientProtocol, ImageProcessStrategyProtocol {
 
 						// check response object
 						guard let responseTemp = response.response else {
-							observer.onError(response.error!)
+							observer.onError(self.handleError(response: response))
 							return
 						}
 
 						// check status code
 						if responseTemp.statusCode < 200,
 							responseTemp.statusCode > 300 {
-							observer.onError(response.error!)
+							observer.onError(self.handleError(response: response))
 							return
 						}
 
 						// check response data
 						guard let data = response.data else {
-							observer.onError(response.error!)
+							observer.onError(self.handleError(response: response))
 							return
 						}
 
@@ -59,7 +59,7 @@ struct RestClient: RestClientProtocol, ImageProcessStrategyProtocol {
 							observer.onCompleted()
 
 						} catch {
-							observer.onError(error)
+							observer.onError(RIRError.factory.jsonParsingError())
 						}
 				}
 			}
@@ -68,30 +68,45 @@ struct RestClient: RestClientProtocol, ImageProcessStrategyProtocol {
 		}
 	}
 
+	private func handleError(response: AFDataResponse<Any>) -> RIRError {
+		if let errorTemp = response.error,
+			let errDesc = errorTemp.errorDescription {
+			return RIRError.factory.customError(domain: errDesc)
+		} else {
+			return RIRError.factory.customError()
+		}
+	}
+}
+
+extension RestClient: ImageProcessStrategyProtocol {
+
 	func fetchImage (url: String) -> Observable<Data> {
 		return Observable.create { observer in
+
+			if !NetworkReachabilityManager()!.isReachable {
+				observer.onError(RIRError.factory.noNetworkError())
+				return Disposables.create ()
+			}
 
 			DispatchQueue.global().async {
 				AF.download(url).responseData { (response) in
 
-					print(response.fileURL!)
-
 					// check response object
 					guard let responseTemp = response.response else {
-						observer.onError(response.error!)
+						observer.onError(self.handleDownloadError(response: response))
 						return
 					}
 
 					// check status code
 					if responseTemp.statusCode < 200,
 						responseTemp.statusCode > 300 {
-						observer.onError(response.error!)
+						observer.onError(self.handleDownloadError(response: response))
 						return
 					}
 
 					// check file url is available
 					guard let fileUrl = response.fileURL else {
-						observer.onError(response.error!)
+						observer.onError(self.handleDownloadError(response: response))
 						return
 					}
 
@@ -106,7 +121,12 @@ struct RestClient: RestClientProtocol, ImageProcessStrategyProtocol {
 						observer.onNext(data)
 						observer.onCompleted()
 					} catch {
-						observer.onError(response.error!)
+						if let errorTemp = response.error,
+							let errDesc = errorTemp.errorDescription {
+							observer.onError(RIRError.factory.customError(domain: errDesc))
+						} else {
+							observer.onError(RIRError.factory.customError())
+						}
 						return
 					}
 
@@ -123,6 +143,15 @@ struct RestClient: RestClientProtocol, ImageProcessStrategyProtocol {
 			}
 
 			return Disposables.create()
+		}
+	}
+
+	private func handleDownloadError(response: AFDownloadResponse<Data>) -> RIRError {
+		if let errorTemp = response.error,
+			let errDesc = errorTemp.errorDescription {
+			return RIRError.factory.customError(domain: errDesc)
+		} else {
+			return RIRError.factory.customError()
 		}
 	}
 }
