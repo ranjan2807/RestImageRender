@@ -19,15 +19,20 @@ struct FileOperations {
 		}
 	}
 
+	static func imageFileDirectory() -> URL? {
+		guard let docDirectory = documentDirectory() else { return nil }
+		let localDirectory = docDirectory.appendingPathComponent(ImageFolder)
+		checkDirectory(dirPath: localDirectory)
+
+		return localDirectory
+	}
+
 	static func localFileUrlFor(url: String?) -> URL? {
 		guard let urlTemp = url else { return nil }
 
-		guard let docDirectory = documentDirectory() else { return nil }
-
 		guard let filename = URL.init(string: urlTemp)?.lastPathComponent else { return nil }
 
-		let localDirectory = docDirectory.appendingPathComponent(ImageFolder)
-		checkDirectory(dirPath: localDirectory)
+		guard let localDirectory = imageFileDirectory() else { return nil }
 
 		return localDirectory.appendingPathComponent(filename)
 	}
@@ -91,6 +96,17 @@ struct FileOperations {
 			return try Data(contentsOf: localUrl, options: .mappedIfSafe)
 		} catch  {
 			return nil
+		}
+	}
+
+	
+	static func removeALlImageFile () {
+		guard let localDirectory = imageFileDirectory() else { return }
+
+		do {
+			try FileManager.default.removeItem(at: localDirectory)
+		} catch {
+			print(error)
 		}
 	}
 }

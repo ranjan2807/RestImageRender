@@ -14,7 +14,7 @@ protocol ImageListViewModelProtocol {
     var imagesObservable: Driver<[ImageViewData]> { get }
     var loaderObservable: Observable<Bool> { get }
     func initialize()
-    func loadData ()
+    func loadData (forcedReload: Bool)
 }
 
 final class ImageListViewModel: ImageListViewModelProtocol {
@@ -50,11 +50,16 @@ final class ImageListViewModel: ImageListViewModelProtocol {
 
 extension ImageListViewModel {
 
-    func loadData () {
+	func loadData (forcedReload: Bool = false) {
         guard let client = self.restClient else { return }
 
         // start loader
         subjectLoader.accept(true)
+
+		// remove all cached image files
+		if forcedReload {
+			FileOperations.removeALlImageFile()
+		}
 
         // start fetching data from remote
 		client.fetchData(url: CONTENT_URL)
