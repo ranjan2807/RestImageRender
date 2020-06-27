@@ -97,13 +97,13 @@ extension ImageListViewController {
 			var cellwidth = 0.0
 
 			switch UIDevice.current.userInterfaceIdiom {
-			case .phone:
+				case .phone:
 					// It's an iPhone
 					cellwidth = Double((screenWidth - (5*10))/2)
-			case .pad:
+				case .pad:
 					// It's an iPad (or macOS Catalyst)
 					cellwidth = Double((screenWidth - (3*10))/4)
-			default:
+				default:
 					cellwidth = Double((screenWidth - (5*10))/2)
 			}
 
@@ -213,15 +213,16 @@ extension ImageListViewController {
 	}
 
 	fileprivate func bindCollectionView() {
-		viewModel?.imagesObservable.bind(to:
-			(collectionView?.rx.items(
-				cellIdentifier: ImageCollectionViewCell.reuseIdentifier,
-				cellType: UICollectionViewCell.self
-				))!) { [weak self]  _, data, cell in
+		viewModel?.imagesObservable
+			.drive(
+				(collectionView?.rx.items(
+					cellIdentifier: ImageCollectionViewCell.reuseIdentifier,
+					cellType: UICollectionViewCell.self
+					))!) { [weak self]  _, data, cell in
 
-					guard let cellTemp = cell as? ImageCollectionViewCell
-						else { return }
-					self?.updateCells(cell: cellTemp, data: data)
+						guard let cellTemp = cell as? ImageCollectionViewCell
+							else { return }
+						self?.updateCells(cell: cellTemp, data: data)
 
 		}.disposed(by: disposeBag)
 
@@ -239,13 +240,13 @@ extension ImageListViewController {
 
 	fileprivate func bindScreenTitle() {
 		viewModel?.titleObservable
-			.catchErrorJustReturn("")
-			.bind(to: self.rx.title)
+			.drive(self.rx.title)
 			.disposed(by: self.disposeBag)
 	}
 
 	fileprivate func bindLoader() {
 		viewModel?.loaderObservable
+			.catchErrorJustReturn(false)
 			.observeOn(MainScheduler.instance)
 			.subscribe(onNext: { [weak self] flag in
 				if flag {
@@ -253,7 +254,7 @@ extension ImageListViewController {
 				} else {
 					self?.loaderView?.stopAnimating()
 				}
-			}
+				}
 		).disposed(by: disposeBag)
 	}
 }

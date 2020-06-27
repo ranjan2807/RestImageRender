@@ -10,8 +10,8 @@ import RxSwift
 import RxCocoa
 
 protocol ImageListViewModelProtocol {
-    var titleObservable: Observable<String> { get }
-    var imagesObservable: Observable<[ImageViewData]> { get }
+    var titleObservable: Driver<String> { get }
+    var imagesObservable: Driver<[ImageViewData]> { get }
     var loaderObservable: Observable<Bool> { get }
     func initialize()
     func loadData ()
@@ -27,12 +27,12 @@ final class ImageListViewModel: ImageListViewModelProtocol {
 
     lazy private var disposeBag = DisposeBag()
 
-    var titleObservable: Observable<String> {
-        return subjectTitle.asObservable()
+    var titleObservable: Driver<String> {
+        return subjectTitle.asDriver(onErrorJustReturn: "")
     }
 
-    var imagesObservable: Observable<[ImageViewData]> {
-        return subjectImages.asObservable()
+    var imagesObservable: Driver<[ImageViewData]> {
+        return subjectImages.asDriver(onErrorJustReturn: [])
     }
 
     var loaderObservable: Observable<Bool> {
@@ -55,8 +55,6 @@ extension ImageListViewModel {
 
         // start loader
         subjectLoader.accept(true)
-		subjectTitle.accept("")
-		subjectImages.accept( [])
 
         // start fetching data from remote
 		client.fetchData(url: CONTENT_URL)
@@ -69,10 +67,10 @@ extension ImageListViewModel {
                 onError: {  (error) in
 					print(error)
                 },
-                onCompleted: { [weak self] in
-                    // stop loader
-                    self?.subjectLoader.accept(false)
-            })
+                onDisposed: { [weak self] in
+					// stop loader
+					self?.subjectLoader.accept(false)
+			})
             .disposed(by: disposeBag)
     }
 
