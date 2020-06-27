@@ -7,7 +7,6 @@
 
 import UIKit
 import RxSwift
-import Kingfisher
 
 final class ImageListViewController: UIViewController {
 

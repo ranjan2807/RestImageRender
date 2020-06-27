@@ -7,7 +7,6 @@
 
 import Foundation
 import RxSwift
-import Kingfisher
 
 struct ImageViewData {
 

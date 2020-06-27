@@ -11,9 +11,6 @@ target 'RestImageRender' do
 
   pod 'RxSwift'
   pod 'RxCocoa'
-  pod 'RxDataSources'
-
-  pod 'Kingfisher'
 
   pod 'SwiftLint'
 
