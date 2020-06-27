@@ -85,8 +85,7 @@ extension ImageListViewModel {
     fileprivate func updateItems (items: [ImageDetail]?) {
         if let itemTemp = items,
 		itemTemp.count > 0 {
-			let newItems = itemTemp.map { ImageViewData(img: $0,
-														restClient: restClient!) }
+			let newItems = itemTemp.map { ImageViewData(img: $0) }
             subjectImages.accept(newItems)
         } else {
             subjectImages.accept([])

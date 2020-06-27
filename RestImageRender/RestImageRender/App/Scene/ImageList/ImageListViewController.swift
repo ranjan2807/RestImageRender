@@ -97,13 +97,13 @@ extension ImageListViewController {
 			var cellwidth = 0.0
 
 			switch UIDevice.current.userInterfaceIdiom {
-				case .phone:
+			case .phone:
 					// It's an iPhone
 					cellwidth = Double((screenWidth - (5*10))/2)
-				case .pad:
+			case .pad:
 					// It's an iPad (or macOS Catalyst)
 					cellwidth = Double((screenWidth - (3*10))/4)
-				default:
+			default:
 					cellwidth = Double((screenWidth - (5*10))/2)
 			}
 

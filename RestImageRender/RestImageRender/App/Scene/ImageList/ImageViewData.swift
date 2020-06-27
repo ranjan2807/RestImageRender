@@ -13,11 +13,8 @@ struct ImageViewData {
 
 	private let obj: ImageDetail?
 
-	private let restClient: RestClientProtocol?
-
-	init( img: ImageDetail, restClient: RestClientProtocol ) {
+	init( img: ImageDetail) {
 		obj = img
-		self.restClient = restClient
 	}
 
 	var imgTitle: String {
@@ -35,24 +32,18 @@ struct ImageViewData {
 	}
 
 	func loadImage () -> Observable<UIImage> {
-		return Observable.create { observer in
 
-			guard let urlStr = self.obj?.imgUrl else {
-				observer.onCompleted()
-				return Disposables.create()
-			}
+		guard let urlStr = self.obj?.imgUrl else {
+			return Observable.just(UIImage(named: PLACEHOLDER_IMAGE)!)
+		}
 
-			return (self.restClient?.downloadImage(url: urlStr)
-				.subscribe(onNext: { (imageData) in
-					if let img = UIImage(data: imageData) {
-						observer.onNext(img)
-					}
-					observer.onCompleted()
-				},
-						   onError: { (_) in
-							observer.onCompleted()
-
-				}))!
+		return ImageLoader.shared.retreiveImage(urlStr)
+			.map { imageData in
+				if let img = UIImage(data: imageData) {
+					return img
+				} else {
+					return UIImage(named: PLACEHOLDER_IMAGE)!
+				}
 		}
 	}
 
