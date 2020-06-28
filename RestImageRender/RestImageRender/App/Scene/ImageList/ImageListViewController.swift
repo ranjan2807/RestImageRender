@@ -370,6 +370,7 @@ extension ImageListViewController {
 
 		// initiates image downloading to render downloading
 		cell.downloadObservable = data.loadImage()
+			.catchErrorJustReturn(UIImage(named: PLACEHOLDER_IMAGE)!)
 			.bind(to:
 				(cell.imgView?.rx.image)!)
 
