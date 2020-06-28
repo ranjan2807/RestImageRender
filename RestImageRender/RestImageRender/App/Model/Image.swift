@@ -7,24 +7,27 @@
 
 import Foundation
 
+/// Top level JSON model
 struct AppData: Decodable {
-    var title: String?
-    var items: [ImageDetail]?
+    var title: String? // json title
+    var items: [ImageDetail]? // json items
 }
 
+// specifies json leaf keys and map them to model properties
 extension AppData {
     enum CodingKeys: String, CodingKey {
         case title
         case items = "rows"
     }
 }
-
+// Row model of JSON
 struct ImageDetail: Decodable {
-    var title: String?
-    var imgDesc: String?
-    var imgUrl: String?
+    var title: String? // fact title
+    var imgDesc: String? // fact description
+    var imgUrl: String? // fact url
 }
 
+// specifies json leaf keys and map them to model properties
 extension ImageDetail {
     enum CodingKeys: String, CodingKey {
         case title
