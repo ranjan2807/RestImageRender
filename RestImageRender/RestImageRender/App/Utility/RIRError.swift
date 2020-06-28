@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Enumeration for App error codes
 enum RIRErrorCode {
 	case emptyField
 	case dataNotFound
@@ -16,60 +17,82 @@ enum RIRErrorCode {
 	case unknown
 }
 
+/// App Custom error class
 struct RIRError: LocalizedError {
-	private var domain: String
+
+	/// message of error
+	private var message: String
+
+	/// code specific for an error
 	private var code: RIRErrorCode
+
+	/// user info dictionary to store error information in key-value format
 	private var userInfo: Dictionary<String, String>?
 
+	/// factory instance for generating custom error class
 	static let factory = RIRErrorFactory.instance
 
 	// designated initializer
-	private init(domain: String, code: RIRErrorCode, userInfo: Dictionary<String, String>? = nil ) {
-		self.domain = domain
+	private init(message: String, code: RIRErrorCode, userInfo: Dictionary<String, String>? = nil ) {
+		self.message = message
 		self.code = code
 		self.userInfo = userInfo
 	}
 
-	// Factory class for error
+	// Inner Factory class for error
 	struct RIRErrorFactory {
 
 		private init() {}
 
 		static let instance = RIRErrorFactory()
 
+		/// Error to throw, when a specific feild value is empty
+		/// - Parameter userInfo: user info dictionary to store error information in key-value format
 		func feildEmptyError(userInfo: Dictionary<String, String>? = [:] ) -> RIRError {
-			return RIRError(domain: "Feild value not found".localized,
+			return RIRError(message: "Feild value not found".localized,
 							code: .emptyField,
 							userInfo: userInfo)
 		}
 
+		/// Error to throw, when the concern data is nil or not found
+		/// - Parameter userInfo: user info dictionary to store error information in key-value format
 		func dataNotFoundError(userInfo: Dictionary<String, String>? = [:] ) -> RIRError {
-			return RIRError(domain: "Data not found".localized,
+			return RIRError(message: "Data not found".localized,
 							code: .dataNotFound,
 							userInfo: userInfo)
 		}
 
+		/// Error to throw, when json data parsing results in some error
+		/// - Parameter userInfo: user info dictionary to store error information in key-value format
 		func jsonParsingError(userInfo: Dictionary<String, String>? = [:] ) -> RIRError {
-			return RIRError(domain: "JSON parsing error".localized,
+			return RIRError(message: "JSON parsing error".localized,
 							code: .dataNotFound,
 							userInfo: userInfo)
 		}
 
+		/// Error to throw when connection is made and network connectivity is not there
+		/// - Parameter userInfo: user info dictionary to store error information in key-value format
 		func noNetworkError(userInfo: Dictionary<String, String>? = [:] ) -> RIRError {
-			return RIRError(domain: "The Internet connection appears to be offline.".localized,
+			return RIRError(message: "The Internet connection appears to be offline.".localized,
 							code: .noNetwork,
 							userInfo: userInfo)
 		}
 
-		func customError(domain: String = "Something went wrong. Please try after sometime.".localized,
+		/// Any custom error
+		/// - Parameters:
+		///   - domain: Error domain info
+		///   - userInfo: user info dictionary to store error information in key-value format
+		func customError(message: String = "Something went wrong. Please try after sometime.".localized,
 						 userInfo: Dictionary<String, String>? = [:] ) -> RIRError {
-			return RIRError(domain: domain,
+			return RIRError(message: message,
 							code: .customError,
 							userInfo: userInfo)
 		}
 
+		/// Unknown error
+		/// - Parameter userInfo: user info dictionary to store error information in key-value format
 		func unknownError(userInfo: Dictionary<String, String>? = [:] ) -> RIRError {
-			return RIRError(domain: "Unknown error occurred".localized,
+			return RIRError(message: "Unknown error occurred".localized,
 							code: .dataNotFound,
 							userInfo: userInfo)
 		}

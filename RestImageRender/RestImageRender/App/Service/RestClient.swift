@@ -83,7 +83,7 @@ struct RestClient: RestClientProtocol {
 	private func handleError(response: AFDataResponse<Any>) -> RIRError {
 		if let errorTemp = response.error,
 			let errDesc = errorTemp.errorDescription {
-			return RIRError.factory.customError(domain: errDesc)
+			return RIRError.factory.customError(message: errDesc)
 		} else {
 			return RIRError.factory.customError()
 		}
@@ -141,7 +141,7 @@ extension RestClient: ImageProcessStrategyProtocol {
 					} catch {
 						if let errorTemp = response.error,
 							let errDesc = errorTemp.errorDescription {
-							observer.onError(RIRError.factory.customError(domain: errDesc))
+							observer.onError(RIRError.factory.customError(message: errDesc))
 						} else {
 							observer.onError(RIRError.factory.customError())
 						}
@@ -169,7 +169,7 @@ extension RestClient: ImageProcessStrategyProtocol {
 	private func handleDownloadError(response: AFDownloadResponse<Data>) -> RIRError {
 		if let errorTemp = response.error,
 			let errDesc = errorTemp.errorDescription {
-			return RIRError.factory.customError(domain: errDesc)
+			return RIRError.factory.customError(message: errDesc)
 		} else {
 			return RIRError.factory.customError()
 		}

@@ -92,7 +92,7 @@ extension ImageListViewModel {
 
 		// remove all cached image files if needed
 		if forcedReload {
-			FileOperations.removeALlImageFile()
+			FileOperations.removeAllImageFile()
 		}
 
         // start fetching data from remote

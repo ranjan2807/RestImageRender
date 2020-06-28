@@ -28,7 +28,7 @@ struct CacheClient: ImageProcessStrategyProtocol {
 					// forward the custom error.
 					observer.onError(RIRError.factory
 						.customError(
-							domain: "Error retreiving data from local file".localized
+							message: "Error retreiving data from local file".localized
 						)
 					)
 				}
