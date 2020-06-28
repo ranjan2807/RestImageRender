@@ -8,14 +8,20 @@
 import Foundation
 import RxSwift
 
-struct ImageViewData {
 
+/// To abstract model from view controller class, this class wraps the model
+/// and presents displayable data from the model to the screen cells
+struct ImageViewData {
+	/// model of view data
 	private let obj: ImageDetail?
 
+	/// Initialize view data by constructor based injection of concern model
+	/// - Parameter img: Model class injected
 	init( img: ImageDetail) {
 		obj = img
 	}
 
+	/// returns displayable title from the model
 	var imgTitle: String {
 		return obj?.title?
 			.trimmingCharacters(
@@ -23,6 +29,7 @@ struct ImageViewData {
 			) ?? ""
 	}
 
+	/// returns displayable description from the model
 	var imgDesc: String {
 		return obj?.imgDesc?
 			.trimmingCharacters(
@@ -30,12 +37,14 @@ struct ImageViewData {
 			) ?? ""
 	}
 
+	/// return displayable image observable
 	func loadImage () -> Observable<UIImage> {
-
+		// Early exit if image url is corrupted
 		guard let urlStr = self.obj?.imgUrl else {
 			return Observable.just(UIImage(named: PLACEHOLDER_IMAGE)!)
 		}
 
+		// starts downloading of image and later updates the image observable
 		return ImageLoader.shared.retreiveImage(urlStr)
 			.map { imageData in
 				if let img = UIImage(data: imageData) {

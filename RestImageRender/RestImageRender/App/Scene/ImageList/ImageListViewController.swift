@@ -8,13 +8,11 @@
 import UIKit
 import RxSwift
 
-typealias ViewModelCompositeType = ImageListViewModelProtocol & ImageListViewModelObservableProtocol
-
 /// Screen class for displaying facts list
 final class ImageListViewController: UIViewController {
 
 	/// view model
-	var viewModel: ViewModelCompositeType?
+	var viewModel: ImageListViewModelType?
 
 	/// dispose bag for rx elements
 	lazy private var disposeBag = DisposeBag()
@@ -32,7 +30,7 @@ final class ImageListViewController: UIViewController {
 		return collectionViewTemp
 	} ()
 
-	// loader view
+	/// loader view
 	lazy private var loaderView: UIActivityIndicatorView? = {
 		let activity = UIActivityIndicatorView()
 		activity.hidesWhenStopped = true
@@ -43,31 +41,52 @@ final class ImageListViewController: UIViewController {
 		return activity
 	} ()
 
-	// pull to refresh
+	/// pull to refresh
 	lazy private var refreshCollection: UIRefreshControl? = {
 		let refreshControl = UIRefreshControl()
-		refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+		refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh".localized)
 
 		return refreshControl
 	} ()
 
+	/// Calls up when this view controller object deallocates
+	deinit { print("\(type(of: self)) dealloced ......") }
+
+	/// Calls up just after view controller is alloc
+	/// ideal time to add UI subviews and UI configurations
 	override func loadView() {
 		super.loadView()
-		self.view.backgroundColor = RIRColors.background
-		self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Refresh", style: .plain, target: self, action: #selector(refresh))
 
-		// add screen views
+		// change background color of screen with
+		// app scecific background color
+		self.view.backgroundColor = RIRColors.background
+
+		// Add refresh button to refresh the data
+		self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+			title: "Refresh".localized,
+			style: .plain,
+			target: self,
+			action: #selector(refresh))
+
+		// add all screen views
 		addSubviews()
 	}
 
+	/// Calls up when view controller view loads up
 	override func viewDidLoad() {
 		super.viewDidLoad()
+
+		// adds large title title with a nice animation
+		// while scrolling collection view
 		self.navigationController!.navigationBar.prefersLargeTitles = true
 
-		NotificationCenter.default.addObserver(self,
-											   selector: #selector(refresh),
-											   name: UIApplication.didBecomeActiveNotification,
-			object: nil)
+		// mechnism to update the facts list
+		// whenever app bacome active
+		NotificationCenter.default
+			.addObserver(self,
+						 selector: #selector(refresh),
+						 name: UIApplication.didBecomeActiveNotification,
+						 object: nil)
 
 		// bind collection view with the
 		// image list data of viewModel
@@ -82,6 +101,7 @@ final class ImageListViewController: UIViewController {
 // MARK: - UI RENDER
 extension ImageListViewController {
 
+	/// main method to all subviews of screen
 	fileprivate func addSubviews() {
 		// add collection view
 		addCollectionView()
@@ -93,11 +113,16 @@ extension ImageListViewController {
 		addPullToRefresh()
 	}
 
+	/// 1. Adds loader which displays while
+	/// app is busy fetching the updated list of facts
 	fileprivate func addLoader() {
 		self.view.addSubview(loaderView!)
+
+		// To ensure loader appears at the top
 		self.view.bringSubviewToFront(loaderView!)
 	}
 
+	/// 2. Adds the collection view and configure flow layout
 	fileprivate func addCollectionView() {
 		if let layoutTemp = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
 			let screenSize = self.view.bounds.size
@@ -115,48 +140,22 @@ extension ImageListViewController {
 					cellwidth = Double((screenWidth - (5*10))/2)
 			}
 
+			// gabs to added into collection view edges
 			layoutTemp.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+			// sets size each cell
 			layoutTemp.itemSize = CGSize(width: cellwidth, height: cellwidth*1.5)
-			layoutTemp.minimumLineSpacing = 30
+			layoutTemp.minimumLineSpacing = 30 // sets verticle spacing between cells
 		}
 
 		self.view.addSubview(collectionView!)
 	}
 
+	/// 3. Adds pull to refresh component of collection view
+	/// to refresh the data whenever neede
 	fileprivate func addPullToRefresh () {
 		refreshCollection!.addTarget(self, action: #selector(refresh), for: .valueChanged)
 		collectionView!.addSubview(refreshCollection!)
 	}
-
-	@objc func refresh () {
-
-		// reload Screen data
-		if let viewModel = viewModel {
-			viewModel.loadData(forcedReload: true)
-		}
-
-		// hide pull to refresh
-		self.perform(#selector(hidePullToRefresh),
-					 with: refreshCollection,
-					 afterDelay: 2.0)
-	}
-
-	@objc func hidePullToRefresh () {
-		refreshCollection?.endRefreshing()
-	}
-
-	fileprivate func updateCells(cell: ImageCollectionViewCell, data: ImageViewData) {
-		cell.lblTitle?.text = data.imgTitle
-		cell.lblDesc?.text = data.imgDesc
-		cell.imgView?.image = UIImage(named: PLACEHOLDER_IMAGE)
-
-		cell.downloadObservable = data.loadImage()
-			.bind(to:
-				(cell.imgView?.rx.image)!)
-
-		cell.downloadObservable?.disposed(by: disposeBag)
-	}
-
 }
 
 // MARK: - CONSTRAINTS
@@ -186,6 +185,7 @@ extension ImageListViewController {
 			views: views)
 		allConstraints += collectionVerticalConstraints
 
+		// make loader vertically center so that it appears at the centre
 		let loaderVerticalConstraints = NSLayoutConstraint.constraints(
 			withVisualFormat: "V:[superview]-(<=1)-[loaderView(100)]",
 			options: .alignAllCenterX,
@@ -193,6 +193,7 @@ extension ImageListViewController {
 			views: views)
 		allConstraints += loaderVerticalConstraints
 
+		// make loader horizontally center so that it appears at the centre
 		let loaderHorizontalConstraints = NSLayoutConstraint.constraints(
 			withVisualFormat: "H:[superview]-(<=1)-[loaderView(100)]",
 			options: .alignAllCenterY,
@@ -220,7 +221,10 @@ extension ImageListViewController {
 
 	}
 
+	/// Observable binding to collection to react on specific events
 	fileprivate func bindCollectionView() {
+		// observable binding to load
+		// facts data into collection view
 		viewModel?.imagesObservable
 			.drive(
 				(collectionView?.rx.items(
@@ -234,6 +238,9 @@ extension ImageListViewController {
 
 		}.disposed(by: disposeBag)
 
+		// dispose image loading observables when cell is
+		// not displaying in the cell.
+		// some memory management stuffs
 		collectionView?.rx.didEndDisplayingCell
 			.asObservable().subscribe(onNext: { (row) in
 				guard let cellTemp = row.cell as? ImageCollectionViewCell else {
@@ -246,12 +253,14 @@ extension ImageListViewController {
 			}).disposed(by: disposeBag)
 	}
 
+	/// observable binding for screen title
 	fileprivate func bindScreenTitle() {
 		viewModel?.titleObservable
 			.drive(self.rx.title)
 			.disposed(by: self.disposeBag)
 	}
 
+	/// observable binding to control loader animation
 	fileprivate func bindLoader() {
 		viewModel?.loaderObservable
 			.catchErrorJustReturn(false)
@@ -264,5 +273,47 @@ extension ImageListViewController {
 				}
 				}
 		).disposed(by: disposeBag)
+	}
+}
+
+// MARK: - MISC
+extension ImageListViewController {
+
+	/// action method , calls up when user pull to refresh
+	/// screen data
+	@objc func refresh () {
+
+		// reload Screen data
+		if let viewModel = viewModel {
+			viewModel.loadData(forcedReload: true)
+		}
+
+		// hide pull to refresh
+		self.perform(#selector(hidePullToRefresh),
+					 with: refreshCollection,
+					 afterDelay: 2.0)
+	}
+
+	/// action method calls up to hide pull to refresh
+	@objc func hidePullToRefresh () {
+		refreshCollection?.endRefreshing()
+	}
+
+	/// Updates view components of dequeued cell in collection using data
+	/// - Parameters:
+	///   - cell: cell of which view components needs to be updated
+	///   - data: data to update in cell
+	fileprivate func updateCells(cell: ImageCollectionViewCell, data: ImageViewData) {
+		cell.lblTitle?.text = data.imgTitle // set fact title
+		cell.lblDesc?.text = data.imgDesc // set fact description
+		cell.imgView?.image = UIImage(named: PLACEHOLDER_IMAGE)
+
+		// initiates image downloading to render downloading
+		cell.downloadObservable = data.loadImage()
+			.bind(to:
+				(cell.imgView?.rx.image)!)
+
+		// adds cell image observable to dispose bag
+		cell.downloadObservable?.disposed(by: disposeBag)
 	}
 }

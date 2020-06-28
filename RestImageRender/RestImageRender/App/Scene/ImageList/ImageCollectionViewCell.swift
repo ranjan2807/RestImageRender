@@ -8,16 +8,26 @@
 import UIKit
 import RxSwift
 
+
+/// Cell class for collection view
 final class ImageCollectionViewCell: UICollectionViewCell {
 
+	/// Reuse identifier to dequeue collection cell
     static let reuseIdentifier = "Cell"
 
+	/// Observable to control downloading and rendering of cell image
 	var downloadObservable: Disposable?
 
+	/// Designated initializer for cell class
+	///  Add all  subview layout and configuration here
+	/// - Parameter frame: Frame of cell
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+		// add all sub view of cell
         addViews()
+
+		// add contraints to cell sub views
         addLayoutConstraints()
     }
 
@@ -25,6 +35,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+	/// View to add card view effect to the cell
     lazy var cardView: UIView? = {
         let view  = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +50,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         return view
     } ()
 
+	/// title label of cell
     lazy var lblTitle: UILabel? = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -49,6 +61,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         return label
     } ()
 
+	/// Descrition label of cell
     lazy var lblDesc: UILabel? = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -61,6 +74,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         return label
     } ()
 
+	/// Image view of cell
     lazy var imgView: UIImageView? = {
         let img = UIImageView()
         img.contentMode = .scaleAspectFill
@@ -72,16 +86,24 @@ final class ImageCollectionViewCell: UICollectionViewCell {
     } ()
 }
 
+// MARK: - UI RENDERING
 extension ImageCollectionViewCell {
+
+	/// Adds subview to cell
     func addViews() {
+		// add card view to cell
         self.contentView.addSubview(self.cardView!)
+
+		// add imageview, title label, desc lable to card view
         cardView!.addSubview(self.lblTitle!)
         cardView!.addSubview(self.lblDesc!)
         cardView!.addSubview(self.imgView!)
 
+		// add app background color to cell
         cardView?.backgroundColor = RIRColors.background
     }
 
+	/// Add constraints to cell sub views
     func addLayoutConstraints() {
 
         let views: [String: Any] = [
@@ -93,12 +115,14 @@ extension ImageCollectionViewCell {
 
         var allConstraints: [NSLayoutConstraint] = []
 
+		/// Pin card view to left and right side of cell
         let cardHorizontalConstraintlet = NSLayoutConstraint.constraints(
         withVisualFormat: "H:|[cardView]|",
         metrics: nil,
         views: views)
         allConstraints += cardHorizontalConstraintlet
 
+		/// Pin card view to top and bottom of cell
         let cardVerticalConstraintlet = NSLayoutConstraint.constraints(
         withVisualFormat: "V:|[cardView]|",
         metrics: nil,
@@ -107,18 +131,21 @@ extension ImageCollectionViewCell {
 
         // HORIZONTAL CONSTRAINTS
 
+		/// Pin horizontal constraints of title label
         let titleHorizontalConstraints = NSLayoutConstraint.constraints(
         withVisualFormat: "H:|-10-[lblTitle]-10-|",
         metrics: nil,
         views: views)
         allConstraints += titleHorizontalConstraints
 
+		/// Pin Horizontal containts of desc label
         let descHorizontalConstraints = NSLayoutConstraint.constraints(
         withVisualFormat: "H:|-10-[lblDesc]-10-|",
         metrics: nil,
         views: views)
         allConstraints += descHorizontalConstraints
 
+		/// Pin Horizontal constraints of image view
         let imgHorizontalConstraints = NSLayoutConstraint.constraints(
         withVisualFormat: "H:|[imgView]|",
         metrics: nil,
