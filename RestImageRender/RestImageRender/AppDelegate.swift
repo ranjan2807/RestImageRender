@@ -12,7 +12,7 @@ import Swinject
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	/// app screen window
-    var window: UIWindow? = UIWindow(frame: UIScreen.main.bounds)
+    var window: UIWindow?
 
 	/// app main coordinator
     var appCoordinator: Coordinator?
@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+		window = UIWindow(frame: UIScreen.main.bounds)
 
 		// Inject the app coordinator using swinject conatiner
 		appCoordinator = container.resolve(Coordinator.self)
