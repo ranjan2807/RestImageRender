@@ -5,6 +5,8 @@
   Copyright © 2020 Ranjan-iOS. All rights reserved.
 */
 
+//////////////////////////////////////
+///// Error Texts
 "Feild value not found" = "Feild value not found";
 
 "Data not found" = "Data not found";
@@ -13,13 +15,18 @@
 
 "Unknown error occurred" = "Unknown error occurred";
 
-"Facts" = "Facts";
-
 "The Internet connection appears to be offline." = "The Internet connection appears to be offline.";
 
 "Something went wrong. Please try after sometime." = "Something went wrong. Please try after sometime.";
 
 "JSON parsing error" = "JSON parsing error";
+
+"Error retreiving data from local file" = "Error retreiving data from local file";
+
+
+//////////////////////////////////
+/////// UI STRINGS
+"Facts" = "Facts";
 
 "Pull to refresh" = "Pull to refresh";
 
