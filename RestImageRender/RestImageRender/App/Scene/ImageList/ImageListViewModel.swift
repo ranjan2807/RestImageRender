@@ -9,12 +9,17 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol ImageListViewModelProtocol {
-    var titleObservable: Driver<String> { get }
-    var imagesObservable: Driver<[ImageViewData]> { get }
-    var loaderObservable: Observable<Bool> { get }
-    func initialize()
-    func loadData (forcedReload: Bool)
+/// Protocol to configure View model
+protocol ImageListViewModelProtocol: ImageListViewModelObservableProtocol {
+	func initialize()
+	func loadData (forcedReload: Bool)
+}
+
+/// Protocol to keeps list of all observables
+protocol ImageListViewModelObservableProtocol {
+	var titleObservable: Driver<String> { get }
+	var imagesObservable: Driver<[ImageViewData]> { get }
+	var loaderObservable: Observable<Bool> { get }
 }
 
 final class ImageListViewModel: ImageListViewModelProtocol {
