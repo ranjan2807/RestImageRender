@@ -8,7 +8,6 @@
 import UIKit
 import RxSwift
 
-
 /// Cell class for collection view
 final class ImageCollectionViewCell: UICollectionViewCell {
 

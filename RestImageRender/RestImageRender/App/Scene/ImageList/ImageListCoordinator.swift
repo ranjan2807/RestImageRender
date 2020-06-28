@@ -57,7 +57,6 @@ final class ImageListCoordinator: Coordinator {
         navigationController.viewControllers = [viewController]
     }
 
-
 	/// Not used, will be use to safely remove the current screen
     func finish() { }
 

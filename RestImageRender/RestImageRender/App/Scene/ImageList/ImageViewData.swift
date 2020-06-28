@@ -8,7 +8,6 @@
 import Foundation
 import RxSwift
 
-
 /// To abstract model from view controller class, this class wraps the model
 /// and presents displayable data from the model to the screen cells
 struct ImageViewData {

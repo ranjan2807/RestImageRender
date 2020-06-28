@@ -8,7 +8,6 @@
 import Foundation
 import RxSwift
 
-
 /// Caching service
 struct CacheClient: ImageProcessStrategyProtocol {
 

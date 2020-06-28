@@ -52,7 +52,6 @@ struct ImageFetcherStrategy: ImageFetcherProtocol {
 	}
 }
 
-
 /// Main class responsible for proving image
 struct ImageLoader {
 
