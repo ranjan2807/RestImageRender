@@ -59,6 +59,7 @@ final class ImageListViewController: UIViewController {
 		lbl.textColor = RIRColors.primary
 		lbl.translatesAutoresizingMaskIntoConstraints = false
 		lbl.numberOfLines = 0
+		lbl.isHidden = true
 		return lbl
 	} ()
 
@@ -175,7 +176,7 @@ extension ImageListViewController {
 
 	/// Add empty screen text warning
 	fileprivate func addEmptyDataWarning() {
-		self.view.addSubview(lblEmptyScreen!)
+		collectionView?.addSubview(lblEmptyScreen!)
 	}
 }
 
@@ -256,6 +257,8 @@ extension ImageListViewController {
 		// bind loader
 		bindLoader()
 
+		// bind visibility of empty text
+		bindEmptyText()
 	}
 
 	/// Observable binding to collection to react on specific events
@@ -288,19 +291,6 @@ extension ImageListViewController {
 					obj.dispose()
 				}
 			}).disposed(by: disposeBag)
-
-		// Display empty screen text when no collection view data is available
-		viewModel?.imagesObservable.asObservable().subscribe(
-			onNext: { [weak self] data in
-			if data.count > 0 {
-				self?.collectionView?.isHidden = false
-			} else {
-				self?.collectionView?.isHidden = true
-			}
-		},
-			onError: { [weak self] _ in
-				self?.collectionView?.isHidden = true
-		}).disposed(by: disposeBag)
 	}
 
 	/// observable binding for screen title
@@ -323,6 +313,26 @@ extension ImageListViewController {
 				}
 				}
 		).disposed(by: disposeBag)
+	}
+
+	/// observable to control empty text visibility
+	fileprivate func bindEmptyText() {
+		// Display empty screen text when no collection view data is available
+		viewModel?.imagesObservable.asObservable().subscribe(
+			onNext: { [weak self] data in
+				if data.count > 0 {
+					// hide empty text when items are loaded
+					self?.lblEmptyScreen?.isHidden = true
+				} else {
+					// show empty text when no items are there
+					self?.lblEmptyScreen?.isHidden = false
+				}
+			},
+			onError: { [weak self] _ in
+				// show empty text when there is any error
+				// while retreiving facts item
+				self?.lblEmptyScreen?.isHidden = false
+		}).disposed(by: disposeBag)
 	}
 }
 
