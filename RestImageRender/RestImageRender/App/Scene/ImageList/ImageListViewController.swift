@@ -22,6 +22,7 @@ final class ImageListViewController: UIViewController {
 		let collectionViewTemp = UICollectionView(frame: CGRect(),
 												  collectionViewLayout: UICollectionViewFlowLayout())
 		collectionViewTemp.backgroundColor = RIRColors.background
+		collectionViewTemp.isHidden = false
 		collectionViewTemp.translatesAutoresizingMaskIntoConstraints = false
 
 		collectionViewTemp.register(ImageCollectionViewCell.self,
@@ -47,6 +48,18 @@ final class ImageListViewController: UIViewController {
 		refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh".localized)
 
 		return refreshControl
+	} ()
+
+	// empty screen label
+	lazy private var lblEmptyScreen: UILabel? = {
+		let lbl = UILabel()
+		lbl.text = "No facts found!".localized
+		lbl.font = UIFont.boldSystemFont(ofSize: 24)
+		lbl.textAlignment = .center
+		lbl.textColor = RIRColors.primary
+		lbl.translatesAutoresizingMaskIntoConstraints = false
+		lbl.numberOfLines = 0
+		return lbl
 	} ()
 
 	/// Calls up when this view controller object deallocates
@@ -103,6 +116,9 @@ extension ImageListViewController {
 
 	/// main method to all subviews of screen
 	fileprivate func addSubviews() {
+		// add empty data text warning
+		addEmptyDataWarning()
+
 		// add collection view
 		addCollectionView()
 
@@ -156,6 +172,11 @@ extension ImageListViewController {
 		refreshCollection!.addTarget(self, action: #selector(refresh), for: .valueChanged)
 		collectionView!.addSubview(refreshCollection!)
 	}
+
+	/// Add empty screen text warning
+	fileprivate func addEmptyDataWarning() {
+		self.view.addSubview(lblEmptyScreen!)
+	}
 }
 
 // MARK: - CONSTRAINTS
@@ -166,7 +187,8 @@ extension ImageListViewController {
 		let views: [String: Any] = [
 			"collectionView": collectionView!,
 			"loaderView": loaderView!,
-			"superview": self.view!
+			"superview": self.view!,
+			"lblEmptyScreen": lblEmptyScreen!
 		]
 
 		var allConstraints: [NSLayoutConstraint] = []
@@ -174,8 +196,7 @@ extension ImageListViewController {
 		// collection horizontal axis constraints
 		let collectionHorizontalConstraints = NSLayoutConstraint.constraints(
 			withVisualFormat: "H:|[collectionView]|",
-			metrics: nil,
-			views: views)
+			metrics: nil, views: views)
 		allConstraints += collectionHorizontalConstraints
 
 		// collection vertical axis constraints
@@ -200,6 +221,22 @@ extension ImageListViewController {
 			metrics: nil,
 			views: views)
 		allConstraints += loaderHorizontalConstraints
+
+		// make empty text vertically center so that it appears at the centre
+		let emptyTextVerticalConstraints = NSLayoutConstraint.constraints(
+			withVisualFormat: "V:[superview]-(<=1)-[lblEmptyScreen(250)]",
+			options: .alignAllCenterX,
+			metrics: nil,
+			views: views)
+		allConstraints += emptyTextVerticalConstraints
+
+		// make empty text horizontally center so that it appears at the centre
+		let emptyTextHorizontalConstraints = NSLayoutConstraint.constraints(
+			withVisualFormat: "H:[superview]-(<=1)-[lblEmptyScreen]",
+			options: .alignAllCenterY,
+			metrics: nil,
+			views: views)
+		allConstraints += emptyTextHorizontalConstraints
 
 		NSLayoutConstraint.activate(allConstraints)
 	}
@@ -251,6 +288,19 @@ extension ImageListViewController {
 					obj.dispose()
 				}
 			}).disposed(by: disposeBag)
+
+		// Display empty screen text when no collection view data is available
+		viewModel?.imagesObservable.asObservable().subscribe(
+			onNext: { [weak self] data in
+			if data.count > 0 {
+				self?.collectionView?.isHidden = false
+			} else {
+				self?.collectionView?.isHidden = true
+			}
+		},
+			onError: { [weak self] _ in
+				self?.collectionView?.isHidden = true
+		}).disposed(by: disposeBag)
 	}
 
 	/// observable binding for screen title
