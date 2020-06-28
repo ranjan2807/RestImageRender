@@ -39,8 +39,8 @@ final class ImageListCoordinator: Coordinator {
     func start() {
         guard let navigationController = self.navigationController else { return }
 
-        if let viewModel = container.resolve(ImageListViewModelProtocol.self) {
-            self.viewController.viewModel = viewModel
+        if let viewModel = container.resolve (ImageListViewModelProtocol.self) as? ViewModelCompositeType {
+			self.viewController.viewModel = viewModel
             self.viewController.viewModel?.initialize()
         }
 

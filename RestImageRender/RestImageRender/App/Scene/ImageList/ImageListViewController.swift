@@ -8,15 +8,18 @@
 import UIKit
 import RxSwift
 
+typealias ViewModelCompositeType = ImageListViewModelProtocol & ImageListViewModelObservableProtocol
+
+/// Screen class for displaying facts list
 final class ImageListViewController: UIViewController {
 
-	// view model
-	var viewModel: ImageListViewModelProtocol?
+	/// view model
+	var viewModel: ViewModelCompositeType?
 
-	// dispose bag for rx elements
+	/// dispose bag for rx elements
 	lazy private var disposeBag = DisposeBag()
 
-	// collection view that will load images downloaded
+	/// collection view that will load images downloaded
 	lazy private var collectionView: UICollectionView? = {
 		let collectionViewTemp = UICollectionView(frame: CGRect(),
 												  collectionViewLayout: UICollectionViewFlowLayout())
