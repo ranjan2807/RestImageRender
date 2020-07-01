@@ -2,7 +2,7 @@
 
 This project is to demonstrate Image rendering in a collection view without using storyboards. The project make use to RxSwift and Alamofire to fetch screen data from remote and forward it to screen class for rendering in collection view
 
-#Key Points
+# Key Points
 1. Code Architecture - MVVM + Rx. (View Controller is driven by a view model object which maintains entire app’s business logic and their binding is achieved using RxSwift)  
 2. Minimum iOS version supported: iOS 11.1
 3. Supports iPhone and iPad.
