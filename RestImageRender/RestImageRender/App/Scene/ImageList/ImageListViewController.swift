@@ -148,13 +148,13 @@ extension ImageListViewController {
 
 			switch UIDevice.current.userInterfaceIdiom {
 			case .phone:
-					// It's an iPhone
-					cellwidth = Double((screenWidth - (5*10))/2)
+				// It's an iPhone
+				cellwidth = Double((screenWidth - (5*10))/2)
 			case .pad:
-					// It's an iPad (or macOS Catalyst)
-					cellwidth = Double((screenWidth - (3*10))/4)
+				// It's an iPad (or macOS Catalyst)
+				cellwidth = Double((screenWidth - (3*10))/4)
 			default:
-					cellwidth = Double((screenWidth - (5*10))/2)
+				cellwidth = Double((screenWidth - (5*10))/2)
 			}
 
 			// gabs to added into collection view edges
@@ -272,7 +272,7 @@ extension ImageListViewController {
 					cellType: UICollectionViewCell.self
 					))!) { [weak self]  _, data, cell in
 
-						guard let cellTemp = cell as? ImageCollectionViewCell
+						guard let cellTemp = cell as? ImageCollectionViewCellProtocol
 							else { return }
 						self?.updateCells(cell: cellTemp, data: data)
 
@@ -283,7 +283,7 @@ extension ImageListViewController {
 		// some memory management stuffs
 		collectionView?.rx.didEndDisplayingCell
 			.asObservable().subscribe(onNext: { (row) in
-				guard let cellTemp = row.cell as? ImageCollectionViewCell else {
+				guard let cellTemp = row.cell as? ImageCollectionViewCellProtocol else {
 					return
 				}
 
@@ -363,18 +363,7 @@ extension ImageListViewController {
 	/// - Parameters:
 	///   - cell: cell of which view components needs to be updated
 	///   - data: data to update in cell
-	fileprivate func updateCells(cell: ImageCollectionViewCell, data: ImageViewData) {
-		cell.lblTitle?.text = data.imgTitle // set fact title
-		cell.lblDesc?.text = data.imgDesc // set fact description
-		cell.imgView?.image = UIImage(named: PLACEHOLDER_IMAGE)
-
-		// initiates image downloading to render downloading
-		cell.downloadObservable = data.loadImage()
-			.catchErrorJustReturn(UIImage(named: PLACEHOLDER_IMAGE)!)
-			.bind(to:
-				(cell.imgView?.rx.image)!)
-
-		// adds cell image observable to dispose bag
-		cell.downloadObservable?.disposed(by: disposeBag)
+	fileprivate func updateCells(cell: ImageCollectionViewCellProtocol, data: ImageViewDataProtocol) {
+		cell.updateCell(data: data)
 	}
 }

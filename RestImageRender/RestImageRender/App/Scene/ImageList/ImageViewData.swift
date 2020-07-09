@@ -8,9 +8,16 @@
 import Foundation
 import RxSwift
 
+protocol ImageViewDataProtocol {
+	var imgTitle: String { get }
+	var imgDesc: String { get }
+	init( img: ImageDetail)
+	func loadImage () -> Observable<UIImage>
+}
+
 /// To abstract model from view controller class, this class wraps the model
 /// and presents displayable data from the model to the screen cells
-struct ImageViewData {
+struct ImageViewData: ImageViewDataProtocol {
 	/// model of view data
 	private let obj: ImageDetail?
 
