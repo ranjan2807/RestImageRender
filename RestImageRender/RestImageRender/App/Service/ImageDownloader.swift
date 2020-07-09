@@ -7,7 +7,7 @@
 
 import Foundation
 import RxSwift
-import Swinject
+
 
 /// Strategy Protocol responsble for image fetching from url
 protocol ImageProcessStrategyProtocol {
@@ -54,34 +54,9 @@ struct ImageFetcherStrategy: ImageFetcherProtocol {
 
 /// Main class responsible for proving image
 struct ImageLoader {
-
-	/// Enum for image fetcher client type
-	enum ClientType: String {
-		case rest = "rest-type" // rest api client type
-		case cache = "cache-type" // local cache client type
-	}
-
+	
 	/// shared instance for image downloader class
 	static let shared = ImageLoader()
-
-	/// Swinject container for handling strategy client dependency injection
-	private var container: Container = {
-		var contTemp = Container()
-
-		// register for rest client type dependency
-		contTemp.register(ImageProcessStrategyProtocol.self,
-						  name: ClientType.rest.rawValue) { _ in
-			return RestClient()
-		}
-
-		// register for local cache client type dependency
-		contTemp.register(ImageProcessStrategyProtocol.self,
-						  name: ClientType.cache.rawValue) { _ in
-			return CacheClient()
-		}
-
-		return contTemp
-	} ()
 
 	/// Make constructor private
 	private init () {}
@@ -92,16 +67,17 @@ struct ImageLoader {
 		/// Checks if image is available in local
 		/// if yes, then go for local cache
 		// if no, go for remote downloading of image
-		var clientType: ClientType
+		var clientType: String
 
 		if FileOperations.checkFileIsAvailable(remoteUrl: url) {
-			clientType = .cache
+			clientType = "rir.App.Service.ImageProcessStrategy.cache"
 		} else {
-			clientType = .rest
+			clientType = "rir.App.Service.ImageProcessStrategy.rest"
 		}
 
-		let client = container.resolve(ImageProcessStrategyProtocol.self,
-									   name: clientType.rawValue)!
+		let client = AppContainer.shared
+			.resolve(ImageProcessStrategyProtocol.self,
+									   name: clientType)!
 
 		/// Start image fetcher using a specific client type
 		let fetcher = ImageFetcherStrategy(url: url, client: client)

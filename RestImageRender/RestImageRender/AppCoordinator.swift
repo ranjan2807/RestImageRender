@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import Swinject
 
 /// Coordinator base protocol
 protocol Coordinator: class {
@@ -47,17 +46,6 @@ final class AppCoordinator: Coordinator {
 	/// Holds app root navigation controller
     lazy private var rootViewController: UINavigationController? = UINavigationController()
 
-	/// Swinject container to safely inject required dependencies
-    lazy private var container: Container = {
-        let contTemp = Container()
-
-		/// Register Image list coordinator in swinject conatiner
-        contTemp.register(Coordinator.self) { [weak self] _ in
-            ImageListCoordinator(navigationController: self!.rootViewController!)
-        }
-        return contTemp
-    }()
-
 	/// Designated constructor iniating coordinator with app delegate window instance
 	/// - Parameter window: app delegate window injected
     init(window: UIWindow?) {
@@ -87,7 +75,11 @@ extension AppCoordinator {
 	/// open the image list screen by initiating image list coordinator
     func openImageList() {
 		// Get the image list coordinator instance and start the coordinator
-        guard let coordinator = container.resolve(Coordinator.self) else { return }
+		guard let rootViewController = self.rootViewController,
+			let coordinator = AppContainer.shared
+			.resolve(Coordinator.self,
+					 name: "rir.AppCoordinator.ImageListCoordinator",
+					 argument: rootViewController) else { return }
         coordinator.start()
 
 		// Retain the coordinator as child of app coordinator

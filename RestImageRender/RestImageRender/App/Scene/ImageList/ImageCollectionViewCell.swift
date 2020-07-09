@@ -8,7 +8,6 @@
 import UIKit
 import RxSwift
 
-
 /// Protocol for rendering cell's UI
 protocol ImageCollectionViewCellProtocol {
 
