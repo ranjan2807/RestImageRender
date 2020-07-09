@@ -345,7 +345,7 @@ extension ImageListViewController {
 
 		// reload Screen data
 		if let viewModel = viewModel {
-			viewModel.loadData(forcedReload: true)
+			viewModel.refreshData()
 		}
 
 		// hide pull to refresh

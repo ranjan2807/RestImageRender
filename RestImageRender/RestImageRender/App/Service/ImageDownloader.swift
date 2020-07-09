@@ -8,7 +8,6 @@
 import Foundation
 import RxSwift
 
-
 /// Strategy Protocol responsble for image fetching from url
 protocol ImageProcessStrategyProtocol {
 
@@ -54,7 +53,7 @@ struct ImageFetcherStrategy: ImageFetcherProtocol {
 
 /// Main class responsible for proving image
 struct ImageLoader {
-	
+
 	/// shared instance for image downloader class
 	static let shared = ImageLoader()
 

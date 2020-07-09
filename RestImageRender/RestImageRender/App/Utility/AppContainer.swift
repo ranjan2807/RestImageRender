@@ -59,3 +59,10 @@ struct AppContainer {
 	} ()
 }
 
+extension AppContainer {
+	static let sharedThing: Container = {
+		let container = Container()
+		return container
+	} ()
+}
+

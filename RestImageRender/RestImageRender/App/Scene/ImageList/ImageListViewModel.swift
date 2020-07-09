@@ -11,12 +11,11 @@ import RxCocoa
 
 /// Protocol to configure View model
 protocol ImageListViewModelProtocol {
-	/// calls up when view model is initiated, to ensure view midel configuration
+	/// calls up when view model is initiated, to ensure view model configuration
 	func initialize()
 
-	/// Implements fetching of facts json from remote
-	/// - Parameter forcedReload: if set to true, ensures json as well as images are resets with updated data
-	func loadData (forcedReload: Bool)
+	/// refreshes the facts json and related images from remote
+	func refreshData ()
 }
 
 /// Protocol to keeps list of all observables
@@ -36,10 +35,11 @@ typealias ImageListViewModelType = ImageListViewModelProtocol & ImageListViewMod
 
 /// View model class for facts list view controller. This class holds the entire business logic
 /// implementations of image list screen. This class is injected to image list screen by coordinator
-final class ImageListViewModel: ImageListViewModelType {
+final class ImageListViewModel {
 
 	/// Observer for control title changes
-    private let subjectTitle = BehaviorRelay<String>(value: "")
+	/// initialize screen title with default title
+	private let subjectTitle = BehaviorRelay<String>(value: "Facts".localized)
 
 	/// Observer to control facts data updates
     private let subjectImages = BehaviorRelay<[ImageViewData]>(value: [])
@@ -53,38 +53,44 @@ final class ImageListViewModel: ImageListViewModelType {
 	/// Dispose bag for Rx observables to ensure safe deallacation
     lazy private var disposeBag = DisposeBag()
 
-	// Due to implementation of ImageListViewModelObservableProtocol
-    var titleObservable: Driver<String> {
-        return subjectTitle.asDriver(onErrorJustReturn: "")
-    }
-
-    var imagesObservable: Driver<[ImageViewData]> {
-        return subjectImages.asDriver(onErrorJustReturn: [])
-    }
-
-    var loaderObservable: Observable<Bool> {
-        return subjectLoader.asObservable()
-    }
-
 	/// Initializes view model class
 	/// - Parameter restClient: service for remote connection injected by coordinators
     init(_ restClient: RestClientProtocol) {
         self.restClient = restClient
     }
+}
+
+extension ImageListViewModel: ImageListViewModelType {
 
 	// Due to implementation of ImageListViewModelObservableProtocol
-    func initialize() {
-		// initialize screen title with default title
-		subjectTitle.accept("Facts".localized)
+	var titleObservable: Driver<String> {
+		return subjectTitle.asDriver(onErrorJustReturn: "")
+	}
 
+	var imagesObservable: Driver<[ImageViewData]> {
+		return subjectImages.asDriver(onErrorJustReturn: [])
+	}
+
+	var loaderObservable: Observable<Bool> {
+		return subjectLoader.asObservable()
+	}
+
+	// Due to implementation of ImageListViewModelObservableProtocol
+	func initialize() {
 		// start fetching data from resmote
-        loadData()
-    }
+		loadData()
+	}
+
+	/// refreshes the facts json and related images from remote
+	func refreshData() {
+		// force load app data
+		loadData(forcedReload: true)
+	}
 }
 
 extension ImageListViewModel {
 	// Due to implementation of ImageListViewModelObservableProtocol
-	func loadData (forcedReload: Bool = false) {
+	fileprivate func loadData (forcedReload: Bool = false) {
         guard let client = self.restClient else { return }
 
         // start loader

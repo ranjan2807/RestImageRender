@@ -9,9 +9,11 @@ import Foundation
 import RxSwift
 
 protocol ImageViewDataProtocol {
+	/// returns displayable title from the model
 	var imgTitle: String { get }
+	/// returns displayable description from the model
 	var imgDesc: String { get }
-	init( img: ImageDetail)
+	/// return displayable image observable
 	func loadImage () -> Observable<UIImage>
 }
 
