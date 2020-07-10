@@ -15,6 +15,10 @@
 		26584FBA24B8931100CCCAFA /* ServiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26584FB924B8931100CCCAFA /* ServiceAssembly.swift */; };
 		26584FBC24B8932C00CCCAFA /* ViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26584FBB24B8932C00CCCAFA /* ViewModelAssembly.swift */; };
 		26584FBE24B8BAF500CCCAFA /* RepositoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26584FBD24B8BAF500CCCAFA /* RepositoryAssembly.swift */; };
+		26584FC124B8C28900CCCAFA /* ImageDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26584FC024B8C28900CCCAFA /* ImageDetailCoordinator.swift */; };
+		26584FC324B8C2CE00CCCAFA /* ImageDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26584FC224B8C2CE00CCCAFA /* ImageDetailViewModel.swift */; };
+		26584FC524B8C2EA00CCCAFA /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26584FC424B8C2EA00CCCAFA /* ImageDetailViewController.swift */; };
+		26584FC724B8C49600CCCAFA /* ViewControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26584FC624B8C49600CCCAFA /* ViewControllerAssembly.swift */; };
 		2688660124A7912900E8E18C /* RIRError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2688660024A7912900E8E18C /* RIRError.swift */; };
 		2688660324A7B77700E8E18C /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2688660224A7B77700E8E18C /* ImageDownloader.swift */; };
 		2688660524A7B7CF00E8E18C /* CacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2688660424A7B7CF00E8E18C /* CacheClient.swift */; };
@@ -67,6 +71,10 @@
 		26584FB924B8931100CCCAFA /* ServiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAssembly.swift; sourceTree = "<group>"; };
 		26584FBB24B8932C00CCCAFA /* ViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelAssembly.swift; sourceTree = "<group>"; };
 		26584FBD24B8BAF500CCCAFA /* RepositoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryAssembly.swift; sourceTree = "<group>"; };
+		26584FC024B8C28900CCCAFA /* ImageDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailCoordinator.swift; sourceTree = "<group>"; };
+		26584FC224B8C2CE00CCCAFA /* ImageDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewModel.swift; sourceTree = "<group>"; };
+		26584FC424B8C2EA00CCCAFA /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
+		26584FC624B8C49600CCCAFA /* ViewControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerAssembly.swift; sourceTree = "<group>"; };
 		2688660024A7912900E8E18C /* RIRError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RIRError.swift; sourceTree = "<group>"; };
 		2688660224A7B77700E8E18C /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		2688660424A7B7CF00E8E18C /* CacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheClient.swift; sourceTree = "<group>"; };
@@ -157,8 +165,19 @@
 				26584FB924B8931100CCCAFA /* ServiceAssembly.swift */,
 				26584FBB24B8932C00CCCAFA /* ViewModelAssembly.swift */,
 				26584FBD24B8BAF500CCCAFA /* RepositoryAssembly.swift */,
+				26584FC624B8C49600CCCAFA /* ViewControllerAssembly.swift */,
 			);
 			path = DI;
+			sourceTree = "<group>";
+		};
+		26584FBF24B8C26000CCCAFA /* ImageDetail */ = {
+			isa = PBXGroup;
+			children = (
+				26584FC024B8C28900CCCAFA /* ImageDetailCoordinator.swift */,
+				26584FC224B8C2CE00CCCAFA /* ImageDetailViewModel.swift */,
+				26584FC424B8C2EA00CCCAFA /* ImageDetailViewController.swift */,
+			);
+			path = ImageDetail;
 			sourceTree = "<group>";
 		};
 		26E3DA2024A3C31200E00A3D = {
@@ -265,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				26E3DA7B24A3D9DE00E00A3D /* ImageList */,
+				26584FBF24B8C26000CCCAFA /* ImageDetail */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -594,10 +614,14 @@
 				26584FB624B88EED00CCCAFA /* AppAssembler.swift in Sources */,
 				26584FB824B892FF00CCCAFA /* CoordinatorAssembly.swift in Sources */,
 				2688660524A7B7CF00E8E18C /* CacheClient.swift in Sources */,
+				26584FC524B8C2EA00CCCAFA /* ImageDetailViewController.swift in Sources */,
 				2688660724A7CB7500E8E18C /* FileOperations.swift in Sources */,
+				26584FC724B8C49600CCCAFA /* ViewControllerAssembly.swift in Sources */,
+				26584FC324B8C2CE00CCCAFA /* ImageDetailViewModel.swift in Sources */,
 				26584FBE24B8BAF500CCCAFA /* RepositoryAssembly.swift in Sources */,
 				26584FBC24B8932C00CCCAFA /* ViewModelAssembly.swift in Sources */,
 				26E3DA2D24A3C31200E00A3D /* AppDelegate.swift in Sources */,
+				26584FC124B8C28900CCCAFA /* ImageDetailCoordinator.swift in Sources */,
 				26E3DA7A24A3D99400E00A3D /* AppCoordinator.swift in Sources */,
 				26E3DA7724A3D87500E00A3D /* Constants.swift in Sources */,
 				26E3DA8624A3FCAA00E00A3D /* RestClient.swift in Sources */,

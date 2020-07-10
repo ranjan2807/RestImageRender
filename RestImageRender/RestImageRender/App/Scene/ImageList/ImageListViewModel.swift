@@ -16,6 +16,9 @@ protocol ImageListViewModelProtocol {
 
 	/// refreshes the facts json and related images from remote
 	func refreshData ()
+
+	/// navigates app to image details
+	func openImageDetail(index: Int?)
 }
 
 /// Protocol to keeps list of all observables
@@ -28,6 +31,12 @@ protocol ImageListViewModelObservableProtocol {
 
 	/// Observable to control animation of loader while JSON file is being fetch from server
 	var loaderObservable: Observable<Bool> { get }
+}
+
+/// Protocol to handle image list screen navigations
+protocol ImageListViewModelNavigationPotocol {
+	/// Observable to control navigation to image detail screen
+	var imageDetailObservable: Observable<ImageViewDataProtocol> { get }
 }
 
 /// type alias for composition of protocols of View model class
@@ -47,11 +56,16 @@ final class ImageListViewModel {
 	/// Observer to control loader animation
     private let subjectLoader = BehaviorRelay<Bool>(value: true)
 
+	private let subjectImageDetail = PublishRelay<ImageViewDataProtocol>()
+
 	// Service that helps in making connection to remote
     private let restClient: RestClientProtocol?
 
 	/// Dispose bag for Rx observables to ensure safe deallacation
     lazy private var disposeBag = DisposeBag()
+
+	/// saves current list of facts image model
+	private var imageList: [ImageViewDataProtocol]?
 
 	/// Initializes view model class
 	/// - Parameter restClient: service for remote connection injected by coordinators
@@ -61,7 +75,6 @@ final class ImageListViewModel {
 }
 
 extension ImageListViewModel: ImageListViewModelType {
-
 	// Due to implementation of ImageListViewModelObservableProtocol
 	var titleObservable: Driver<String> {
 		return subjectTitle.asDriver(onErrorJustReturn: "")
@@ -85,6 +98,15 @@ extension ImageListViewModel: ImageListViewModelType {
 	func refreshData() {
 		// force load app data
 		loadData(forcedReload: true)
+	}
+
+	/// navigates app to image details
+	func openImageDetail(index: Int?) {
+		if let index = index,
+			let list = imageList,
+			index < list.count {
+			subjectImageDetail.accept(list[index])
+		}
 	}
 }
 
@@ -154,4 +176,13 @@ extension ImageListViewModel {
         }
 
     }
+}
+
+/// Protocol to handle image list screen navigations
+extension ImageListViewModel: ImageListViewModelNavigationPotocol {
+
+	/// Observable to control navigation to image detail screen
+	var imageDetailObservable: Observable<ImageViewDataProtocol> {
+		return subjectImageDetail.asObservable()
+	}
 }
