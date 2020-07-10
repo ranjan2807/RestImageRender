@@ -19,6 +19,7 @@ This project is to demonstrate Image rendering in a collection view without usin
 - Strategy - To dynamically inject a specific logic (strategy object) which allow app to look for fact item image from local cache or from remote url
 - ViewData - Each fact item model is kept abstracted using a viewData class. View model is responsible for creating viewData linked with each fact item (cell), by injecting a specific fact item model into view data class. View data helps the cell to safely display formatted data of the model.
 - Partial Facade - Image downloader class which is used to allow the view data class to retrieve its image data either from local cache or remote url.
+- DI Container Pattern - to add modularity to the code as per IOC principle, any higher modele is not directly dependent on lower module. This is acheived by Swinject Assembly Containers.
 7. No storyboard is used to add a view controller and its subviews into the UI. View controllers and subviews are added programmatically into UI. Each subview and collection cells are layout using visual format constraints.
 8. Reactive Observables and Drivers of RxSwift and RxCocoa drive the UI visibility and rendering. If no data is received from a remote url (may be due to network issue), the screen will display a message “No Facts found” which is also driven by observables. Further screen title and loader animations are also driven by reactive observables of view model
 9. Profiling of app revealed apps are using less than 20MB memory in  simulators.
