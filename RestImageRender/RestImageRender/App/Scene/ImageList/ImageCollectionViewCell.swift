@@ -8,6 +8,17 @@
 import UIKit
 import RxSwift
 
+/// Protocol for rendering cell's UI
+protocol ImageCollectionViewCellProtocol {
+
+	/// observable for downloading image
+	var downloadObservable: Disposable? { get }
+
+	/// updates data of dequeued cell UI
+	/// - Parameter data: model to use for updating cell
+	func updateCell (data: ImageViewDataProtocol)
+}
+
 /// Cell class for collection view
 final class ImageCollectionViewCell: UICollectionViewCell {
 
@@ -16,6 +27,9 @@ final class ImageCollectionViewCell: UICollectionViewCell {
 
 	/// Observable to control downloading and rendering of cell image
 	var downloadObservable: Disposable?
+
+	/// dispose bag for rx elements
+	lazy private var disposeBag = DisposeBag()
 
 	/// Designated initializer for cell class
 	///  Add all  subview layout and configuration here
@@ -160,4 +174,25 @@ extension ImageCollectionViewCell {
 
         NSLayoutConstraint.activate(allConstraints)
     }
+}
+
+// MARK: - ImageCollectionViewCellProtocol
+extension ImageCollectionViewCell: ImageCollectionViewCellProtocol {
+
+	/// updates data of dequeued cell UI
+	/// - Parameter data: model to use for updating cell
+	func updateCell(data: ImageViewDataProtocol) {
+		self.lblTitle?.text = data.imgTitle // set fact title
+		self.lblDesc?.text = data.imgDesc // set fact description
+		self.imgView?.image = UIImage(named: PLACEHOLDER_IMAGE)
+
+		// initiates image downloading to render downloading
+		self.downloadObservable = data.loadImage()
+			.catchErrorJustReturn(UIImage(named: PLACEHOLDER_IMAGE)!)
+			.bind(to:
+				(self.imgView?.rx.image)!)
+
+		// adds cell image observable to dispose bag
+		self.downloadObservable?.disposed(by: disposeBag)
+	}
 }

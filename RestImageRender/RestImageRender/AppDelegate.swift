@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Swinject
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,25 +16,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	/// app main coordinator
     var appCoordinator: Coordinator?
 
-	/// swinject container helps in injecting dependency safely
-	lazy fileprivate var container: Container = {
-		let contTemp = Container()
-
-		// register coordinator dependency to create instance of app coordinator
-		contTemp.register(Coordinator.self) { _ in
-			AppCoordinator(window: self.window)
-		}
-		return contTemp
-	} ()
-
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
 		window = UIWindow(frame: UIScreen.main.bounds)
 
-		// Inject the app coordinator using swinject conatiner
-		appCoordinator = container.resolve(Coordinator.self)
+		// Inject the app coordinator using app conatiner
+		appCoordinator = AppResolver
+			.resolve(Coordinator.self,
+		name: "rir.AppDelegate.AppCoordinator",
+		argument: self.window)
 		// start the coordinator
         appCoordinator?.start()
 
