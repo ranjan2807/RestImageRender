@@ -8,11 +8,13 @@
 import UIKit
 import RxSwift
 
+protocol ImageListViewControllerProtocol {}
+
 /// Screen class for displaying facts list
-final class ImageListViewController: UIViewController {
+final class ImageListViewController: UIViewController, ImageListViewControllerProtocol {
 
 	/// view model
-	var viewModel: ImageListViewModelType?
+	private var viewModel: ImageListViewModelType?
 
 	/// dispose bag for rx elements
 	lazy private var disposeBag = DisposeBag()
@@ -62,6 +64,15 @@ final class ImageListViewController: UIViewController {
 		lbl.isHidden = true
 		return lbl
 	} ()
+
+	init(viewModel: ImageListViewModelType) {
+		super.init(nibName: nil, bundle: nil)
+		self.viewModel = viewModel
+	}
+
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
 
 	/// Calls up when this view controller object deallocates
 	deinit { print("\(type(of: self)) dealloced ......") }

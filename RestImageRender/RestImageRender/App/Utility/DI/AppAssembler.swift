@@ -17,9 +17,10 @@ extension Assembler {
 			CoordinatorAssembly(), // all coordinator assembly
 			ViewModelAssembly(), // all view model assembly
 			ServiceAssembly(), // all service related assembly
+			ViewControllerAssembly(), // all view controller realted assembly
 			UtilityAssembly(),
 			RepositoryAssembly(),
-			LoggerAssembly()
+			LoggerAssembly(),
 		], container: container)
 
 		return assembler

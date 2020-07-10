@@ -17,7 +17,7 @@ struct ViewModelAssembly: Assembly {
 		}
 
 		// register initialization of ImageListViewModel using RestClient
-		container.register(ImageListViewModelProtocol.self,
+		container.register(ImageListViewModelType.self,
 						   name: "rir.App.Scene.ImageList.ImageListViewModel",
 						   factory: { resolver in
 							ImageListViewModel(
