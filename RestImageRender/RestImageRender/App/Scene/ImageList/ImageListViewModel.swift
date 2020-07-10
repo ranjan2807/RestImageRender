@@ -24,7 +24,7 @@ protocol ImageListViewModelObservableProtocol {
 	var titleObservable: Driver<String> { get }
 
 	/// Drives forwarding fetched Facts data to image view screen rendering
-	var imagesObservable: Driver<[ImageViewData]> { get }
+	var imagesObservable: Driver<[ImageViewDataProtocol]> { get }
 
 	/// Observable to control animation of loader while JSON file is being fetch from server
 	var loaderObservable: Observable<Bool> { get }
@@ -42,7 +42,7 @@ final class ImageListViewModel {
 	private let subjectTitle = BehaviorRelay<String>(value: "Facts".localized)
 
 	/// Observer to control facts data updates
-    private let subjectImages = BehaviorRelay<[ImageViewData]>(value: [])
+    private let subjectImages = BehaviorRelay<[ImageViewDataProtocol]>(value: [])
 
 	/// Observer to control loader animation
     private let subjectLoader = BehaviorRelay<Bool>(value: true)
@@ -67,7 +67,7 @@ extension ImageListViewModel: ImageListViewModelType {
 		return subjectTitle.asDriver(onErrorJustReturn: "")
 	}
 
-	var imagesObservable: Driver<[ImageViewData]> {
+	var imagesObservable: Driver<[ImageViewDataProtocol]> {
 		return subjectImages.asDriver(onErrorJustReturn: [])
 	}
 
@@ -143,7 +143,11 @@ extension ImageListViewModel {
 		itemTemp.count > 0 {
 			/// Transforming Model array into view data array to ensure abstraction
 			/// of model using its view data model class, which controls each item rendering in cells
-			let newItems = itemTemp.map { ImageViewData(img: $0) }
+			let newItems = itemTemp.map {
+				(AppResolver.resolve(ImageViewDataProtocol.self,
+									name: "rir.App.Scene.ImageList.ImageViewData",
+									argument: $0))!
+			}
             subjectImages.accept(newItems)
         } else {
             subjectImages.accept([])

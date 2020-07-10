@@ -14,6 +14,7 @@
 		26584FB824B892FF00CCCAFA /* CoordinatorAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26584FB724B892FF00CCCAFA /* CoordinatorAssembly.swift */; };
 		26584FBA24B8931100CCCAFA /* ServiceAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26584FB924B8931100CCCAFA /* ServiceAssembly.swift */; };
 		26584FBC24B8932C00CCCAFA /* ViewModelAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26584FBB24B8932C00CCCAFA /* ViewModelAssembly.swift */; };
+		26584FBE24B8BAF500CCCAFA /* RepositoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26584FBD24B8BAF500CCCAFA /* RepositoryAssembly.swift */; };
 		2688660124A7912900E8E18C /* RIRError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2688660024A7912900E8E18C /* RIRError.swift */; };
 		2688660324A7B77700E8E18C /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2688660224A7B77700E8E18C /* ImageDownloader.swift */; };
 		2688660524A7B7CF00E8E18C /* CacheClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2688660424A7B7CF00E8E18C /* CacheClient.swift */; };
@@ -65,6 +66,7 @@
 		26584FB724B892FF00CCCAFA /* CoordinatorAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorAssembly.swift; sourceTree = "<group>"; };
 		26584FB924B8931100CCCAFA /* ServiceAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAssembly.swift; sourceTree = "<group>"; };
 		26584FBB24B8932C00CCCAFA /* ViewModelAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelAssembly.swift; sourceTree = "<group>"; };
+		26584FBD24B8BAF500CCCAFA /* RepositoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryAssembly.swift; sourceTree = "<group>"; };
 		2688660024A7912900E8E18C /* RIRError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RIRError.swift; sourceTree = "<group>"; };
 		2688660224A7B77700E8E18C /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		2688660424A7B7CF00E8E18C /* CacheClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheClient.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				26584FB724B892FF00CCCAFA /* CoordinatorAssembly.swift */,
 				26584FB924B8931100CCCAFA /* ServiceAssembly.swift */,
 				26584FBB24B8932C00CCCAFA /* ViewModelAssembly.swift */,
+				26584FBD24B8BAF500CCCAFA /* RepositoryAssembly.swift */,
 			);
 			path = DI;
 			sourceTree = "<group>";
@@ -592,6 +595,7 @@
 				26584FB824B892FF00CCCAFA /* CoordinatorAssembly.swift in Sources */,
 				2688660524A7B7CF00E8E18C /* CacheClient.swift in Sources */,
 				2688660724A7CB7500E8E18C /* FileOperations.swift in Sources */,
+				26584FBE24B8BAF500CCCAFA /* RepositoryAssembly.swift in Sources */,
 				26584FBC24B8932C00CCCAFA /* ViewModelAssembly.swift in Sources */,
 				26E3DA2D24A3C31200E00A3D /* AppDelegate.swift in Sources */,
 				26E3DA7A24A3D99400E00A3D /* AppCoordinator.swift in Sources */,

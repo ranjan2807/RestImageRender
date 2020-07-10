@@ -16,12 +16,6 @@ struct UtilityAssembly: Assembly {
 	}
 }
 
-struct RepositoryAssembly: Assembly {
-
-	func assemble(container: Container) {
-	}
-}
-
 struct LoggerAssembly: Assembly {
 
 	func assemble(container: Container) {
