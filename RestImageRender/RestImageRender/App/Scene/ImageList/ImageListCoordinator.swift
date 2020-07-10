@@ -30,7 +30,7 @@ final class ImageListCoordinator: Coordinator {
     func start() {
         guard let navigationController = self.navigationController else { return }
 
-		if let viewModel = AppContainer.shared
+		if let viewModel = AppResolver
 			.resolve (ImageListViewModelProtocol.self,
 					  name: "rir.App.Scene.ImageList.ImageListViewModel") as? ImageListViewModelType {
 			self.viewController.viewModel = viewModel

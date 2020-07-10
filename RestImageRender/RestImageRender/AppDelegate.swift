@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		window = UIWindow(frame: UIScreen.main.bounds)
 
 		// Inject the app coordinator using app conatiner
-		appCoordinator = AppContainer.shared
+		appCoordinator = AppResolver
 			.resolve(Coordinator.self,
 		name: "rir.AppDelegate.AppCoordinator",
 		argument: self.window)

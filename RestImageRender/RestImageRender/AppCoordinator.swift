@@ -76,7 +76,7 @@ extension AppCoordinator {
     func openImageList() {
 		// Get the image list coordinator instance and start the coordinator
 		guard let rootViewController = self.rootViewController,
-			let coordinator = AppContainer.shared
+			let coordinator = AppResolver
 			.resolve(Coordinator.self,
 					 name: "rir.AppCoordinator.ImageListCoordinator",
 					 argument: rootViewController) else { return }

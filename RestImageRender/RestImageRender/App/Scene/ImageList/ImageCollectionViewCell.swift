@@ -12,7 +12,7 @@ import RxSwift
 protocol ImageCollectionViewCellProtocol {
 
 	/// observable for downloading image
-	var downloadObservable: Disposable? { get set }
+	var downloadObservable: Disposable? { get }
 
 	/// updates data of dequeued cell UI
 	/// - Parameter data: model to use for updating cell

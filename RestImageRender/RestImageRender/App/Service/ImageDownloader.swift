@@ -74,7 +74,7 @@ struct ImageLoader {
 			clientType = "rir.App.Service.ImageProcessStrategy.rest"
 		}
 
-		let client = AppContainer.shared
+		let client = AppResolver
 			.resolve(ImageProcessStrategyProtocol.self,
 									   name: clientType)!
 
