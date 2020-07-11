@@ -173,9 +173,9 @@
 		26584FBF24B8C26000CCCAFA /* ImageDetail */ = {
 			isa = PBXGroup;
 			children = (
-				26584FC024B8C28900CCCAFA /* ImageDetailCoordinator.swift */,
-				26584FC224B8C2CE00CCCAFA /* ImageDetailViewModel.swift */,
 				26584FC424B8C2EA00CCCAFA /* ImageDetailViewController.swift */,
+				26584FC224B8C2CE00CCCAFA /* ImageDetailViewModel.swift */,
+				26584FC024B8C28900CCCAFA /* ImageDetailCoordinator.swift */,
 			);
 			path = ImageDetail;
 			sourceTree = "<group>";

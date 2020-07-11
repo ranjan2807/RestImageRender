@@ -17,5 +17,12 @@ struct ViewControllerAssembly: Assembly {
 						   factory: { (resolver, viewModel) in
 							ImageListViewController(viewModel: viewModel)
 		})
+
+		// register initilization of image detail view controller
+		container.register(ImageDetailViewControllerProtocol.self,
+						   name: "rir.App.Scene.ImageDetail.ImageDetailViewController",
+						   factory: { (resolver, viewModel) in
+							ImageDetailViewController(viewModel: viewModel)
+		})
 	}
 }

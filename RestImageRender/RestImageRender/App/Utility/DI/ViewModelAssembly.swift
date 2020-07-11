@@ -24,5 +24,10 @@ struct ViewModelAssembly: Assembly {
 								resolver.resolve(RestClientProtocol.self, name: "rir.App.Scene.ImageList.ImageListViewModel")!
 							)
 		})
+
+		// register initialzation of imageDetailViewModel
+		container.register(ImageDetailViewModelProtocol.self,
+						   name: "rir.App.Scene.ImageDetail.ImageDetailViewModel",
+						   factory: { _ in ImageDetailViewModel() })
 	}
 }
