@@ -36,7 +36,7 @@ protocol ImageListViewModelObservableProtocol {
 /// Protocol to handle image list screen navigations
 protocol ImageListViewModelNavigationPotocol {
 	/// Observable to control navigation to image detail screen
-	var imageDetailObservable: Observable<ImageViewDataProtocol> { get }
+	var imageDetailObservable: Observable<ImageViewDataProtocol?> { get }
 }
 
 /// type alias for composition of protocols of View model class
@@ -56,7 +56,8 @@ final class ImageListViewModel {
 	/// Observer to control loader animation
     private let subjectLoader = BehaviorRelay<Bool>(value: true)
 
-	private let subjectImageDetail = PublishRelay<ImageViewDataProtocol>()
+	/// Observer to control image detail navigation
+	private let subjectImageDetail = PublishRelay<ImageViewDataProtocol?>.init()
 
 	// Service that helps in making connection to remote
     private let restClient: RestClientProtocol?
@@ -64,7 +65,7 @@ final class ImageListViewModel {
 	/// Dispose bag for Rx observables to ensure safe deallacation
     lazy private var disposeBag = DisposeBag()
 
-	/// saves current list of facts image model
+	/// saves current list of facts image modelxc
 	private var imageList: [ImageViewDataProtocol]?
 
 	/// Initializes view model class
@@ -105,6 +106,8 @@ extension ImageListViewModel: ImageListViewModelType {
 		if let index = index,
 			let list = imageList,
 			index < list.count {
+			/// forward event with model to coordinator
+			/// which will take control to navigate the screen
 			subjectImageDetail.accept(list[index])
 		}
 	}
@@ -165,12 +168,15 @@ extension ImageListViewModel {
 		itemTemp.count > 0 {
 			/// Transforming Model array into view data array to ensure abstraction
 			/// of model using its view data model class, which controls each item rendering in cells
-			let newItems = itemTemp.map {
+			imageList = itemTemp.map {
 				(AppResolver.resolve(ImageViewDataProtocol.self,
 									name: "rir.App.Scene.ImageList.ImageViewData",
 									argument: $0))!
 			}
-            subjectImages.accept(newItems)
+
+			if let list = imageList {
+				subjectImages.accept(list)
+			}
         } else {
             subjectImages.accept([])
         }
@@ -182,7 +188,7 @@ extension ImageListViewModel {
 extension ImageListViewModel: ImageListViewModelNavigationPotocol {
 
 	/// Observable to control navigation to image detail screen
-	var imageDetailObservable: Observable<ImageViewDataProtocol> {
+	var imageDetailObservable: Observable<ImageViewDataProtocol?> {
 		return subjectImageDetail.asObservable()
 	}
 }

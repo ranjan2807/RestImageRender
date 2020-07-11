@@ -302,6 +302,16 @@ extension ImageListViewController {
 					obj.dispose()
 				}
 			}).disposed(by: disposeBag)
+
+		// implementation for collection view cell selection
+		collectionView?
+			.rx
+			.itemSelected
+			.subscribe(onNext: { (indexpath) in
+				if let viewModel = self.viewModel {
+					viewModel.openImageDetail(index: indexpath.row)
+				}
+			}).disposed(by: disposeBag)
 	}
 
 	/// observable binding for screen title

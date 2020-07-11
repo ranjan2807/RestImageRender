@@ -12,7 +12,7 @@ import UIKit
 protocol Coordinator: class {
 
 	/// Child coordinator which each coordinators spawns
-    var childCoordinators: [Coordinator]? {get set}
+    var childCoordinators: [Coordinator] {get set}
 
 	/// Starts the coordinator
     func start()
@@ -26,19 +26,19 @@ extension Coordinator {
 	/// Retain the child coordinators in child coordinator array
 	/// - Parameter coordinator: child coordinator instance
     func store(coordinator: Coordinator) {
-        childCoordinators?.append(coordinator)
+		childCoordinators.append(coordinator)
     }
 
 	/// Release the child coordinators from child coordinator array
 	/// - Parameter coordinator: child coordinator instance
     func free(coordinator: Coordinator) {
-        childCoordinators = childCoordinators?.filter { $0 !== coordinator }
+        childCoordinators = childCoordinators.filter { $0 !== coordinator }
     }
 }
 
 /// Application main coordinator instantiated by App Delegate class
 final class AppCoordinator: Coordinator {
-    var childCoordinators: [Coordinator]?
+    var childCoordinators: [Coordinator] = []
 
 	/// Holds the app delegate window
     private let window: UIWindow?

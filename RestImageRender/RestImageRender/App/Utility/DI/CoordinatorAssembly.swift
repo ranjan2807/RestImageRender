@@ -24,5 +24,11 @@ struct CoordinatorAssembly: Assembly {
 						   factory: { (_, navigationController) in
 							ImageListCoordinator(navigationController: navigationController)
 		})
+
+		/// Register image detail coordinator in swinject container
+		container.register(ImageDetailCoordinatorProtocol.self,
+						   name: "rir.App.Scene.ImageDetail.ImageDetailCoordinator",
+						   factory: { (_, navigationController)  in
+							ImageDetailCoordinator(navigationController: navigationController) })
 	}
 }
