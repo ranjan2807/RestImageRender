@@ -28,6 +28,8 @@
 /////// UI STRINGS
 "Facts" = "Facts";
 
+"Fact" = "Fact";
+
 "Pull to refresh" = "Pull to refresh";
 
 "Refresh" = "Refresh";
