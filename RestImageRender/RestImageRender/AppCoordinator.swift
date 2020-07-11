@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 /// Coordinator base protocol
 protocol Coordinator: class {
@@ -17,8 +18,9 @@ protocol Coordinator: class {
 	/// Starts the coordinator
     func start()
 
-	/// Helps in deallocating the coordinator
-    func finish()
+	/// provide observable to parent coordinator
+	/// to remove its child coordinator
+	func finish() -> Observable<Coordinator>?
 }
 
 extension Coordinator {
@@ -37,11 +39,13 @@ extension Coordinator {
 }
 
 /// Application main coordinator instantiated by App Delegate class
-final class AppCoordinator: Coordinator {
+final class AppCoordinator {
     var childCoordinators: [Coordinator] = []
 
 	/// Holds the app delegate window
     private let window: UIWindow?
+
+	private lazy var disposeBag = DisposeBag()
 
 	/// Holds app root navigation controller
     lazy private var rootViewController: UINavigationController? = UINavigationController()
@@ -51,23 +55,28 @@ final class AppCoordinator: Coordinator {
     init(window: UIWindow?) {
         self.window = window
     }
+}
+
+extension AppCoordinator: Coordinator {
 
 	/// Starts the coordinator
-    func start() {
-        guard let window = window else { return}
+	func start() {
+		guard let window = window else { return}
 
 		// set current coordinator navigation controller as windows root view controller
-        window.rootViewController = rootViewController
+		window.rootViewController = rootViewController
 		// display the navigation controller
-        window.makeKeyAndVisible()
+		window.makeKeyAndVisible()
 
 		// open the image list screen by initiating image list coordinator
-        self.openImageList()
-    }
+		self.openImageList()
+	}
 
-    func finish() {
-        // call back to parent coordinator to remove self
-    }
+	/// provide observable to parent coordinator
+	/// to remove its child coordinator
+	func finish() -> Observable<Coordinator>? {
+		return nil
+	}
 }
 
 extension AppCoordinator {
@@ -84,5 +93,13 @@ extension AppCoordinator {
 
 		// Retain the coordinator as child of app coordinator
         store(coordinator: coordinator)
+
+		// update coordinator removal process
+		coordinator.finish()?
+			.asObservable()
+			.subscribe(onNext: { [weak self] childCoordinator in
+				guard let self = self else { return }
+				self.free(coordinator: childCoordinator)
+			}).disposed(by: disposeBag)
     }
 }

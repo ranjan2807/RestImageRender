@@ -20,6 +20,9 @@ final class ImageListCoordinator {
 
 	private lazy var disposeBag = DisposeBag()
 
+	/// subject to notify screen removal
+	private lazy var subjectRemoval = PublishSubject<Coordinator>()
+
 	/// View controller managed by current coordinator
 	lazy private var viewModel = AppResolver
 		.resolve (ImageListViewModelType.self,
@@ -51,8 +54,14 @@ extension ImageListCoordinator: Coordinator {
 		handleNavigations()
 	}
 
-	/// Not used, will be use to safely remove the current screen
-	func finish() {}
+	/// provide observable to parent coordinator
+	/// to remove its child coordinator
+	func finish() -> Observable<Coordinator>? {
+		return subjectRemoval.asObservable()
+	}
+}
+
+extension ImageListCoordinator {
 
 	func handleNavigations() {
 		/// navigation handling
@@ -63,14 +72,12 @@ extension ImageListCoordinator: Coordinator {
 				.observeOn(MainScheduler.instance)
 				.subscribe(onNext: { [weak self] (model: ImageViewDataProtocol?) in
 					guard let self = self,
-					let model = model else { return }
+						let model = model else { return }
 					self.openImageDetail(model: model)
 				}).disposed(by: disposeBag)
 		}
 	}
-}
 
-extension ImageListCoordinator {
 	/// open image detail screen
 	func openImageDetail(model: ImageViewDataProtocol) {
 		/// Get the image detail coordinator injected to instantiate
@@ -86,6 +93,14 @@ extension ImageListCoordinator {
 
 			// Retain the coordinator as child of app coordinator
 			store(coordinator: coordinator)
+
+			// update coordinator removal process
+			coordinator.finish()?
+				.asObservable()
+				.subscribe(onNext: { [weak self] childCoordinator in
+					guard let self = self else { return }
+					self.free(coordinator: childCoordinator)
+				}).disposed(by: disposeBag)
 		}
 	}
 }

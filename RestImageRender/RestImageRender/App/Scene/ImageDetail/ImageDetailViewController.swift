@@ -24,6 +24,9 @@ class ImageDetailViewController: UIViewController, ImageDetailViewControllerProt
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	/// Calls up when this view controller object deallocates
+	deinit { print("\(type(of: self)) dealloced ......") }
+
 	/// Calls up just after view controller is alloc
 	/// ideal time to add UI subviews and UI configurations
 	override func loadView() {
@@ -50,8 +53,17 @@ class ImageDetailViewController: UIViewController, ImageDetailViewControllerProt
 		// update constraints of
 		// all subviews of screen
 		addLayoutConstraint()
-		
     }
+
+	/// calls up when screen is disappeard from screen
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+
+		// Called when app moves back to image detail screen
+		if self.isMovingFromParent {
+			screenRemoved()
+		}
+	}
 }
 
 // MARK: - UI RENDER
@@ -68,7 +80,6 @@ extension ImageDetailViewController {
 
 	// adds contains to different views of screen
 	fileprivate func addLayoutConstraint() {
-		
 	}
 }
 
@@ -83,5 +94,12 @@ extension ImageDetailViewController {
 
 // MARK: - MISC
 extension ImageDetailViewController {
-	
+
+	/// informs current screen is removed
+	/// and navigated back to list screen
+	func screenRemoved() {
+		if let viewModel = self.viewModel {
+			viewModel.imageDetailScreenRemoved()
+		}
+	}
 }
