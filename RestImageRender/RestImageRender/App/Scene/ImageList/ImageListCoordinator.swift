@@ -85,9 +85,7 @@ extension ImageListCoordinator {
 			let coordinator = AppResolver
 			.resolve(ImageDetailCoordinatorProtocol.self,
 					 name: "rir.App.Scene.ImageDetail.ImageDetailCoordinator",
-					 argument: navigationController) {
-			/// pass image model to image detail coordinator
-			coordinator.imageModel = model
+					 argument: (nav: navigationController, model: model)) {
 			/// start the coordinator
 			coordinator.start()
 

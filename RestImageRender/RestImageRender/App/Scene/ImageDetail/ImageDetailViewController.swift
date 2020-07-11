@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 /// protocol for image detail view controller
 protocol ImageDetailViewControllerProtocol {}
@@ -14,6 +15,9 @@ class ImageDetailViewController: UIViewController, ImageDetailViewControllerProt
 
 	/// view model
 	private var viewModel: ImageDetailViewModelProtocol?
+
+	/// dispose bag for rx elements
+	lazy private var disposeBag = DisposeBag()
 
 	init(viewModel: ImageDetailViewModelProtocol) {
 		super.init(nibName: nil, bundle: nil)
@@ -88,7 +92,15 @@ extension ImageDetailViewController {
 
 	/// Bind view with observables from view model
 	fileprivate func bindView () {
+		// bind navigation title
+		bindScreenTitle()
+	}
 
+	/// observable binding for screen title
+	fileprivate func bindScreenTitle() {
+		viewModel?.titleObservable
+			.drive(self.rx.title)
+			.disposed(by: self.disposeBag)
 	}
 }
 

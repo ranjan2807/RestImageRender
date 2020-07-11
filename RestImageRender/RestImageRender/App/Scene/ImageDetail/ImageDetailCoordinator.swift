@@ -35,8 +35,9 @@ final class ImageDetailCoordinator {
 
 	/// Designated constructor for coordinator class
 	/// - Parameter navigationController: Navigation controller for coordinator view controller
-	init(navigationController: UINavigationController) {
+	init(navigationController: UINavigationController, model: ImageViewDataProtocol) {
 		self.navigationController = navigationController
+		self.imageModel = model
 	}
 
 	/// Calls up when this view controller object deallocates
@@ -52,9 +53,10 @@ extension ImageDetailCoordinator: ImageDetailCoordinatorProtocol {
 				.resolve(ImageDetailViewControllerProtocol.self,
 						 name: "rir.App.Scene.ImageDetail.ImageDetailViewController",
 						 argument: viewModel
-			) as? UIViewController else { return }
+			) as? UIViewController,
+			let model = self.imageModel else { return }
 
-		viewModel.initialize()
+		viewModel.initialize(model: model)
 
 		// show image detail screen
 		navigationController.show(viewController, sender: nil)
