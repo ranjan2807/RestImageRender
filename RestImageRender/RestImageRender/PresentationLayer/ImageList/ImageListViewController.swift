@@ -31,7 +31,7 @@ final class ImageListViewController: UIViewController, ImageListViewControllerPr
 									forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
 
 		return collectionViewTemp
-	} ()
+	}()
 
 	/// loader view
 	lazy private var loaderView: UIActivityIndicatorView? = {
@@ -42,7 +42,7 @@ final class ImageListViewController: UIViewController, ImageListViewControllerPr
 		activity.backgroundColor = RIRColors.primary
 
 		return activity
-	} ()
+	}()
 
 	/// pull to refresh
 	lazy private var refreshCollection: UIRefreshControl? = {
@@ -50,7 +50,7 @@ final class ImageListViewController: UIViewController, ImageListViewControllerPr
 		refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh".localized)
 
 		return refreshControl
-	} ()
+	}()
 
 	// empty screen label
 	lazy private var lblEmptyScreen: UILabel? = {
@@ -63,7 +63,7 @@ final class ImageListViewController: UIViewController, ImageListViewControllerPr
 		lbl.numberOfLines = 0
 		lbl.isHidden = true
 		return lbl
-	} ()
+	}()
 
 	init(viewModel: ImageListViewModelType) {
 		super.init(nibName: nil, bundle: nil)
@@ -115,7 +115,7 @@ final class ImageListViewController: UIViewController, ImageListViewControllerPr
 
 		// bind collection view with the
 		// image list data of viewModel
-		bindView ()
+		bindView()
 
 		// update constraints of
 		// all subviews of screen

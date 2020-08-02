@@ -52,7 +52,7 @@ class ImageDetailViewController: UIViewController, ImageDetailViewControllerProt
 
 		// bind collection view with the
 		// image list data of viewModel
-		bindView ()
+		bindView()
 
 		// update constraints of
 		// all subviews of screen

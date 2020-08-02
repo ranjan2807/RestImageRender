@@ -25,8 +25,8 @@ final class ImageListCoordinator {
 
 	/// View controller managed by current coordinator
 	lazy private var viewModel = AppResolver
-		.resolve (ImageListViewModelType.self,
-				  name: "rir.App.Scene.ImageList.ImageListViewModel")
+		.resolve(ImageListViewModelType.self,
+                 name: "rir.App.Scene.ImageList.ImageListViewModel")
 
 	/// Designated constructor for coordinator class
 	/// - Parameter navigationController: Navigation controller for coordinator view controller

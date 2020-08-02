@@ -61,7 +61,7 @@ extension ImageDetailCoordinator: ImageDetailCoordinatorProtocol {
 		// show image detail screen
 		navigationController.show(viewController, sender: nil)
 
-		handleViewRemoval ()
+		handleViewRemoval()
 	}
 
 	/// provide observable to parent coordinator

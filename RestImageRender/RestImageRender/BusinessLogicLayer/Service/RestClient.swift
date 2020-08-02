@@ -24,7 +24,7 @@ struct RestClient: RestClientProtocol {
 			// if not, it completes the observable by passing a network error
 			if !NetworkReachabilityManager()!.isReachable {
 				observer.onError(RIRError.factory.noNetworkError())
-				return Disposables.create ()
+				return Disposables.create()
 			}
 
 			// starts the connection to fetch data from url
@@ -74,7 +74,7 @@ struct RestClient: RestClientProtocol {
 				}
 			}
 
-			return Disposables.create ()
+			return Disposables.create()
 		}
 	}
 
@@ -98,7 +98,7 @@ extension RestClient: ImageProcessStrategyProtocol {
 			// if not, it completes the observable by passing a network error
 			if !NetworkReachabilityManager()!.isReachable {
 				observer.onError(RIRError.factory.noNetworkError())
-				return Disposables.create ()
+				return Disposables.create()
 			}
 
 			// starts the connection to download data from url

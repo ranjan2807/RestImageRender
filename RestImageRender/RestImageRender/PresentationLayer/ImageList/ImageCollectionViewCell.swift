@@ -61,7 +61,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         view.layer.masksToBounds = false
 
         return view
-    } ()
+    }()
 
 	/// title label of cell
     lazy var lblTitle: UILabel? = {
@@ -72,7 +72,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
 
         return label
-    } ()
+    }()
 
 	/// Descrition label of cell
     lazy var lblDesc: UILabel? = {
@@ -85,7 +85,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         label.adjustsFontSizeToFitWidth = true
 
         return label
-    } ()
+    }()
 
 	/// Image view of cell
     lazy var imgView: UIImageView? = {
@@ -96,7 +96,7 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         img.translatesAutoresizingMaskIntoConstraints = false
 
         return img
-    } ()
+    }()
 }
 
 // MARK: - UI RENDERING
