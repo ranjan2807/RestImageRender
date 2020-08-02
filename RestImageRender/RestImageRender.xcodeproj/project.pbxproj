@@ -156,6 +156,46 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		22A72EF724D71494001EC002 /* ApplicationLayer */ = {
+			isa = PBXGroup;
+			children = (
+				26E3DA2C24A3C31200E00A3D /* AppDelegate.swift */,
+				26E3DA7924A3D99400E00A3D /* AppCoordinator.swift */,
+			);
+			path = ApplicationLayer;
+			sourceTree = "<group>";
+		};
+		22A72EF824D714AE001EC002 /* PresentationLayer */ = {
+			isa = PBXGroup;
+			children = (
+				26E3DA7B24A3D9DE00E00A3D /* ImageList */,
+				26584FBF24B8C26000CCCAFA /* ImageDetail */,
+			);
+			path = PresentationLayer;
+			sourceTree = "<group>";
+		};
+		22A72EF924D714D1001EC002 /* BusinessLogicLayer */ = {
+			isa = PBXGroup;
+			children = (
+				26E3DA6224A3C4D000E00A3D /* Service */,
+				26E3DA6024A3C4BE00E00A3D /* Model */,
+			);
+			path = BusinessLogicLayer;
+			sourceTree = "<group>";
+		};
+		22A72EFA24D714E2001EC002 /* CoreLayer */ = {
+			isa = PBXGroup;
+			children = (
+				26584FB024B88E5700CCCAFA /* DI */,
+				26E3DA7524A3D87400E00A3D /* Constants.swift */,
+				26E3DA7624A3D87500E00A3D /* Utils.swift */,
+				26E3DA6924A3C56800E00A3D /* Localization.swift */,
+				2688660024A7912900E8E18C /* RIRError.swift */,
+				2688660624A7CB7500E8E18C /* FileOperations.swift */,
+			);
+			path = CoreLayer;
+			sourceTree = "<group>";
+		};
 		26584FB024B88E5700CCCAFA /* DI */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,12 +245,12 @@
 		26E3DA2B24A3C31200E00A3D /* RestImageRender */ = {
 			isa = PBXGroup;
 			children = (
+				22A72EFA24D714E2001EC002 /* CoreLayer */,
+				22A72EF924D714D1001EC002 /* BusinessLogicLayer */,
+				22A72EF824D714AE001EC002 /* PresentationLayer */,
+				22A72EF724D71494001EC002 /* ApplicationLayer */,
 				26E3DA5F24A3C4B600E00A3D /* Localization */,
 				26E3DA5E24A3C4A100E00A3D /* Environment */,
-				26E3DA5D24A3C49600E00A3D /* App */,
-				26E3DA5C24A3C48900E00A3D /* Resource */,
-				26E3DA2C24A3C31200E00A3D /* AppDelegate.swift */,
-				26E3DA7924A3D99400E00A3D /* AppCoordinator.swift */,
 				26E3DA3524A3C31400E00A3D /* Assets.xcassets */,
 				26E3DA3724A3C31400E00A3D /* LaunchScreen.storyboard */,
 				26E3DA3A24A3C31400E00A3D /* Info.plist */,
@@ -234,24 +274,6 @@
 				26E3DA5024A3C31400E00A3D /* Info.plist */,
 			);
 			path = RestImageRenderUITests;
-			sourceTree = "<group>";
-		};
-		26E3DA5C24A3C48900E00A3D /* Resource */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Resource;
-			sourceTree = "<group>";
-		};
-		26E3DA5D24A3C49600E00A3D /* App */ = {
-			isa = PBXGroup;
-			children = (
-				26E3DA6324A3C4DE00E00A3D /* Utility */,
-				26E3DA6224A3C4D000E00A3D /* Service */,
-				26E3DA6124A3C4C700E00A3D /* Scene */,
-				26E3DA6024A3C4BE00E00A3D /* Model */,
-			);
-			path = App;
 			sourceTree = "<group>";
 		};
 		26E3DA5E24A3C4A100E00A3D /* Environment */ = {
@@ -280,15 +302,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		26E3DA6124A3C4C700E00A3D /* Scene */ = {
-			isa = PBXGroup;
-			children = (
-				26E3DA7B24A3D9DE00E00A3D /* ImageList */,
-				26584FBF24B8C26000CCCAFA /* ImageDetail */,
-			);
-			path = Scene;
-			sourceTree = "<group>";
-		};
 		26E3DA6224A3C4D000E00A3D /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,19 +310,6 @@
 				2688660424A7B7CF00E8E18C /* CacheClient.swift */,
 			);
 			path = Service;
-			sourceTree = "<group>";
-		};
-		26E3DA6324A3C4DE00E00A3D /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				26584FB024B88E5700CCCAFA /* DI */,
-				26E3DA7524A3D87400E00A3D /* Constants.swift */,
-				26E3DA7624A3D87500E00A3D /* Utils.swift */,
-				26E3DA6924A3C56800E00A3D /* Localization.swift */,
-				2688660024A7912900E8E18C /* RIRError.swift */,
-				2688660624A7CB7500E8E18C /* FileOperations.swift */,
-			);
-			path = Utility;
 			sourceTree = "<group>";
 		};
 		26E3DA7B24A3D9DE00E00A3D /* ImageList */ = {
