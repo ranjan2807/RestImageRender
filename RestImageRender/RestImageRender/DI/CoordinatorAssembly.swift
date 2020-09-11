@@ -7,6 +7,7 @@
 
 import Foundation
 import Swinject
+import Core
 
 struct CoordinatorAssembly: Assembly {
 
